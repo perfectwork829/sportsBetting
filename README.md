@@ -19,7 +19,7 @@ React-native: 0.68.2
 <img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/preview/splash.png" width="347" height="735" />
 
 ## Dashboard page
-<img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/preview/dashboard" width="347" height="735" />
+<img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/preview/dashboard.png" width="347" height="735" />
 
 
 ## New Bet page
