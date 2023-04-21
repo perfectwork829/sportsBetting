@@ -1,5 +1,5 @@
 # 🏀 Sport Betting App 🏀
-<img src="https://github.com/perfectwork829/sportsBetting/splash-img.png" width="561" height="720" />
+<img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/splash-img.png" width="561" height="720" />
 
 ## Packages Used
 Soft UI React Native
@@ -16,12 +16,12 @@ React-native: 0.68.2
 ## Preview
 
 ## Splash page
-<img src="https://github.com/perfectwork829/sportsBetting/assets/preview/splash.png" width="347" height="735" />
+<img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/preview/splash.png" width="347" height="735" />
 
 ## Dashboard page
-<img src="https://github.com/perfectwork829/sportsBetting/assets/preview/dashboard" width="347" height="735" />
+<img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/preview/dashboard" width="347" height="735" />
 
 
 ## New Bet page
-<img src="https://github.com/perfectwork829/sportsBetting/assets/preview/new-betpage.png" width="347" height="735" />
+<img src="https://github.com/perfectwork829/sportsBetting/blob/main/assets/preview/new-betpage.png" width="347" height="735" />
 
