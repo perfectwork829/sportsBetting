@@ -108,10 +108,7 @@ const newBets = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };
-      console.log('new bet start');
-      console.log(result);
-      console.log('new bet end');
+      };                  
       setNewBetResult(fortmatResponse(result));
     } catch (err) {
       setNewBetResult(fortmatResponse(err.response?.data || err));

@@ -46,6 +46,7 @@ export interface IArticle {
 }
 
 export interface IBet {
+  id?: number;
   slip?: string;
   odds?: number;
   amount?: number;
@@ -55,6 +56,7 @@ export interface IBet {
   currency?: string;
   splitters?: string;
   status?: number;
+  created_at?: Date;
   onPress?: (event?: any) => void;
 }
 
