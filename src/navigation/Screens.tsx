@@ -61,7 +61,7 @@ export default () => {
         options={{headerShown: false}}
       />
 
-    <Stack.Screen
+      <Stack.Screen
         name="tabDetail"
         component={tabDetail}        
         options={{headerShown: false}}
