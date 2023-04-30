@@ -36,6 +36,9 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
 
   const [bets, setBets] = useState<IBet[]>(BETS);
   const [bet, setBet] = useState<IBet>({});
+  const [dashboardUpdated, setDashboardUpdated] = useState(false);
+  const [newBetUpdated, setNewBetUpdated] = useState(false);
+
   
   // get isDark mode from storage
   const getIsDark = useCallback(async () => {
@@ -136,6 +139,10 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
     setBets,
     bet,
     handleBet,
+    dashboardUpdated,
+    setDashboardUpdated,
+    newBetUpdated, 
+    setNewBetUpdated,
   };
 
   return (

@@ -14,8 +14,8 @@ const isAndroid = Platform.OS === 'android';
 interface IRegistration {
   name: string;
   slip: string;
-  odds: integer;
-  amount: BigInteger;  
+  odds: number;
+  amount: number;  
   notes: string;
 }
 interface IRegistrationValidation {  
@@ -31,7 +31,8 @@ const newBets = () => {
   const bet_slip = useRef(null);
   const bet_odds = useRef(null);
   const bet_amount = useRef(null);
-  const {isDark} = useData();
+  const {isDark, newBetUpdated, setNewBetUpdated} = useData();
+  
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [isValid, setIsValid] = useState<IRegistrationValidation>({
@@ -44,22 +45,25 @@ const newBets = () => {
   const [registration, setRegistration] = useState<IRegistration>({    
     name: '',
     slip: '',
-    odds: '',
-    amount: '',
+    odds: 0,
+    amount: 0,
     notes: ''
   });
   const {assets, colors, gradients, sizes, icons} = useTheme();
   const [getResult, setGetResult] = useState(null);
   const [newBetResult, setNewBetResult] = useState(null);
   const [quantity, setQuantity] = useState('a(applepay)');
+  const [customerName, setCustomerName] = useState('');
+  const [customerNames, setCustomerNames] = useState([]);
+  const [customerID, setCustomerID] = useState();
   const [splitters, setSplitter] = useState('nothing');
   const headerHeight = useHeaderHeight();
   
   const [inputList, setInputList] = useState([]);
-  const fortmatResponse = (res) => {
+  const fortmatResponse = (res: any) => {
     return JSON.stringify(res, null, 2);
   };
-
+  
   //get the all customers' data  
    async function getCustomersData() {  
       try {
@@ -70,16 +74,11 @@ const newBets = () => {
           headers: res.headers,
           data: res.data,
         };
-        
-        console.log('start');
-        console.log(result);
-        console.log('end');
-        setGetResult(fortmatResponse(result));
-      } catch (err) {
-        console.log('start error');
-        console.log(err);
-        console.log('end error');
 
+        setCustomerNames(res["data"]);
+        setGetResult(fortmatResponse(result));
+      } catch (err) {        
+        console.log(err);        
         setGetResult(fortmatResponse(err.response?.data || err));
       }
   }
@@ -94,9 +93,12 @@ const newBets = () => {
       bsplitter: 1,
       notes: registration.notes,
       currency: quantity,
-      splitters: splitters
+      splitters: splitters,
+      status: 3,
+      customer_id: customerID,
+      splitters1: [{customer_id: 12, amount: 500}]
     };
-
+    
     try {
       const res = await apiClient.post("/new_bets/store", newBetData, {
         headers: {
@@ -110,21 +112,14 @@ const newBets = () => {
         data: res.data,
       };                  
       setNewBetResult(fortmatResponse(result));
+      navigation.navigate('Dashboard');
     } catch (err) {
       setNewBetResult(fortmatResponse(err.response?.data || err));
     }
   }
   
-  // handle input change
-   const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...inputList];
-    list[index][name] = value;
-    setInputList(list);
-  };
-  
   // handle click event of the Remove button
-  const handleRemoveClick = index => {
+  const handleRemoveClick = (index: number) => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
@@ -132,7 +127,7 @@ const newBets = () => {
  
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { secondary_name: "", secondary_amount: "" }]);
+    setInputList([...inputList, { secondary_name: "", secondary_amount: 0 }]);
   };
 
   useLayoutEffect(() => {
@@ -142,7 +137,7 @@ const newBets = () => {
           radius={0}
           resizeMode="cover"
           width={sizes.width}
-          height={headerHeight}
+          height={headerHeight}           
           source={assets.header}
         />
       ),
@@ -169,6 +164,7 @@ const newBets = () => {
   
   const [switch1, setSwitch1] = useState(true);
   const [showModal, setModal] = useState(false);  
+  const [showCustomerModal, setCustomerModal] = useState(false);  
   useEffect(() => {
     setIsValid((state) => ({
       ...state,
@@ -178,7 +174,9 @@ const newBets = () => {
       amount: regex.amount.test(registration.amount),
       notes: regex.note.test(registration.notes),      
     }));
-  }, [registration, setIsValid]);
+    getCustomersData();
+    setNewBetUpdated(false);
+  }, [registration, setIsValid, newBetUpdated]);
 
   return (
     <Block safe>
@@ -198,8 +196,7 @@ const newBets = () => {
             marginHorizontal="8%"
             shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
           >
-            <Block
-              blur
+            <Block              
               flex={0}
               intensity={90}
               radius={sizes.sm}
@@ -210,25 +207,31 @@ const newBets = () => {
               <Text p semibold center marginTop={sizes.xxl} marginBottom={sizes.xs}>
                 {t('newBets.register')}
               </Text>              
-              <Block
-                row
-                flex={0}
-                align="center"
-                justify="center"
-                marginBottom={sizes.sm}
-                paddingHorizontal={sizes.xxl}>                               
-              </Block>
               {/* form inputs */}
               <Block paddingHorizontal={sizes.sm}>
-                <Input
-                  autoCapitalize="none"
-                  marginBottom={sizes.m}
-                  label={t('newBets.name')}
-                  placeholder={t('newBets.namePlaceholder')}
-                  success={Boolean(registration.name && isValid.name)}
-                  danger={Boolean(registration.name && !isValid.name)}
-                  onChangeText={(value) => handleChange({name: value})}             
-                />
+                <Text  color={colors.input} size={15} bold marginBottom={5}>Name</Text>     
+                <Button
+                  flex={1}
+                  row
+                  gradient={gradients.primary}
+                  onPress={() => setCustomerModal(true)}
+                  marginBottom={sizes.xs}
+                  >
+                  <Block
+                    row
+                    align="center"
+                    justify="space-between"
+                    paddingHorizontal={sizes.sm}>
+                    <Text white bold transform="uppercase" marginRight={sizes.sm}>
+                      {customerName}
+                    </Text>
+                    <Image
+                      source={assets.arrow}
+                      color={colors.white}
+                      transform={[{rotate: '90deg'}]}
+                    />
+                  </Block>
+                </Button>
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
@@ -248,7 +251,7 @@ const newBets = () => {
                   onChangeText={(value) => handleChange({odds: value})}
                 /> 
                 <Block row flex={0} align="center" justify="space-between" marginBottom={sizes.xs}>
-                  <Text semibold color={colors.input} h5>Live</Text>                           
+                  <Text color={colors.input} size={15} bold marginBottom={5}>Live</Text>                           
                   <Switch
                     checked={switch1}
                     onPress={(checked) => setSwitch1(checked)}
@@ -323,15 +326,15 @@ const newBets = () => {
                   marginBottom={sizes.m}
                   label={t('newBets.note')}
                   placeholder={t('newBets.notePlaceholder')}
-                  success={Boolean(registration.note && isValid.note)}
-                  danger={Boolean(registration.note && !isValid.note)}  
+                  success={Boolean(registration.notes && isValid.notes)}
+                  danger={Boolean(registration.notes && !isValid.notes)}  
                   onChangeText={(value) => handleChange({notes: value})}                     
                 />                
               </Block>
               <Modal visible={showModal} onRequestClose={() => setModal(false)}>
                 <FlatList
                   keyExtractor={(index) => `${index}`}
-                  data={["a-(applepay)", "ca-(cashapp)", "e-(ethereum)", "z-(zelle)", "L-(litecoin)", "U-(usdt/usdc)", "m-(osrs)"]}
+                  data={["a-(applepay)", "e-(ethereum)", "z-(zelle)", "L-(litecoin)", "U-(usdt/usdc)", "m-(OSRS)"]}
                   renderItem={({item}) => (
                     <Button
                       marginBottom={sizes.sm}
@@ -345,7 +348,26 @@ const newBets = () => {
                     </Button>
                   )}
                 />
-              </Modal>                                        
+              </Modal>    
+              <Modal visible={showCustomerModal} onRequestClose={() => setCustomerModal(false)}>
+                <FlatList
+                  keyExtractor={(index) => `${index}`}
+                  data={customerNames}
+                  renderItem={({item}) => (
+                    <Button
+                      marginBottom={sizes.sm}
+                      onPress={() => {
+                        setCustomerName(item.name);
+                        setCustomerID(item.id);
+                        setCustomerModal(false);
+                      }}>
+                      <Text p white semibold transform="uppercase">
+                        {item.name}
+                      </Text>
+                    </Button>
+                  )}
+                />
+              </Modal>                                      
               <Button
                 primary
                 shadow={!isAndroid}

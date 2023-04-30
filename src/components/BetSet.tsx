@@ -10,9 +10,10 @@ import {IBet} from '../constants/types';
 import { Button} from '../components/';
 import {useNavigation} from '@react-navigation/core';
 import apiClient from "../constants/http-common"
+import { backgroundColorNames } from 'chalk';
 
 
-const Bet = ({
+const BetSet = ({
   id,
   slip,
   odds,
@@ -24,6 +25,7 @@ const Bet = ({
   splitters,
   status,
   created_at,
+  netProfit,
   onPress,
 }: IBet) => {
     const {t} = useTranslation();
@@ -31,8 +33,8 @@ const Bet = ({
     const navigation = useNavigation();
     const [bet, setBet] = useState<IBet>({});
 
-    const viewDetail = (bet_id) => {
-      navigation.navigate('betDetail', {betID: bet_id});
+    const viewDetail = (bet_id:any) => {
+      navigation.navigate('setDetail', {betID: bet_id});
     }
   return (      
     <TouchableWithoutFeedback onPress={() => viewDetail(id) }>
@@ -43,17 +45,20 @@ const Bet = ({
               Stepper Manager
             </Text>
           </Block>
-          <Block center marginRight={25}>
+          <Block justify="center" marginRight={25}>
               <Text p bold center primary>
                 {(live==1)? "LIVE": ""}
               </Text>
               <Text info center>
                 {dayjs(created_at).format('DD MMMM')}
-              </Text>              
+              </Text>     
+              <Text p center white bold style={{tintColor: colors.icon, backgroundColor: '#E293D3'}}>
+                {netProfit}$
+              </Text>          
           </Block>
           <Block justify="center" center>            
             <Text p semibold>
-              {slip} 
+              {slip}
             </Text>
           </Block>
         </Block>
@@ -75,4 +80,4 @@ const Bet = ({
   
 };
 
-export default Bet;
+export default BetSet;

@@ -1,25 +1,26 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {Platform, Linking} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 
 import {Block, Button, Image, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
+import apiClient from "../constants/http-common"
 
 const isAndroid = Platform.OS === 'android';
 
 const Dashboard = () => {
-  const {user} = useData();
+  const {user, dashboardUpdated, setDashboardUpdated} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
+  const [sportSum, setSportsSum] = useState(0);  
   const {assets, colors, sizes, gradients} = useTheme();  
   const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
   const IMAGE_VERTICAL_SIZE =
     (sizes.width - (sizes.padding + sizes.sm) * 2) / 2;
   const IMAGE_MARGIN = (sizes.width - IMAGE_SIZE * 3 - sizes.padding * 2) / 2;
   const IMAGE_VERTICAL_MARGIN =
-    (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
-
+    (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;  
   const handleSocialLink = useCallback(
     (type: 'twitter' | 'dribbble') => {
       const url =
@@ -35,6 +36,34 @@ const Dashboard = () => {
     },
     [user],
   );
+   //get the all Stepper' net profit.
+   async function getTotalNetProfitList() {  
+    try {
+      const res = await apiClient.get("/customer_sum_net");
+
+      const result = {
+        status: res.status + "-" + res.statusText,
+        headers: res.headers,
+        data: res.data,
+      };            
+      setSportsSum(res.data[0]);   
+      console.log(res.data);
+    } catch (err) {      
+      console.log(err);      
+      setGetResult(fortmatResponse(err.response?.data || err));
+    }
+  }
+
+ 
+  useEffect(()=> {  
+    getTotalNetProfitList();       
+  }, []);
+  
+  useEffect(() => {
+    console.log("Dashboard updated with this value", dashboardUpdated);
+    getTotalNetProfitList();      
+    setDashboardUpdated(false);
+  }, [dashboardUpdated])
 
   return (
     <Block safe marginTop={sizes.xs}>
@@ -92,15 +121,15 @@ const Dashboard = () => {
               paddingVertical={sizes.sm}
               renderToHardwareTextureAndroid>
               <Block align="center">
-                <Text h5>${user?.stats?.sports}</Text>
+                <Text h5>{sportSum}$</Text>
                 <Text>{t('dashboard.sports')}</Text>
               </Block>
               <Block align="center">
-                <Text h5>${(user?.stats?.net || 0) / 1000}</Text>
+                <Text h5>{sportSum}$</Text>
                 <Text>{t('dashboard.net')}</Text>
               </Block>
               <Block align="center">
-                <Text h5>${(user?.stats?.irc || 0) / 1000}</Text>
+                <Text h5>0$</Text>
                 <Text>{t('dashboard.irc')}</Text>
               </Block>
             </Block>
@@ -121,7 +150,7 @@ const Dashboard = () => {
             </Button>
         </Block>
         <Block paddingHorizontal={sizes.base}>
-            <Button flex={1} gradient={gradients.danger} marginBottom={sizes.xs} onPress={() => navigation.navigate('activeBets')}>
+            <Button flex={1} gradient={gradients.danger} marginBottom={sizes.xs} onPress={() => navigation.navigate('settledBets')}>
                 <Text white bold transform="uppercase">
                     settled bets
                 </Text>

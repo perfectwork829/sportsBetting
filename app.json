@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#CB0C9F"
-      }
+      },
+      "package": "com.websuper2023.rnsoftuikitfree"
     },
     "web": {
       "favicon": "./assets/favicon.png"

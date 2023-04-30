@@ -50,13 +50,26 @@ export interface IBet {
   slip?: string;
   odds?: number;
   amount?: number;
-  live?: number,
+  live?: number;
   bsplitter?: number,
   notes?: string;
   currency?: string;
   splitters?: string;
   status?: number;
   created_at?: Date;
+  netProfit?: number;
+  onPress?: (event?: any) => void;
+}
+
+export interface ICustomer {
+  name?: string;
+  id?: number;
+  a_apply_pay?: number;
+  b_bitcoin?: number;
+  e_ethereum?: number;
+  z_zelle?: number;  
+  u_usdt?: number;
+  m_game_currency?: number;
   onPress?: (event?: any) => void;
 }
 
@@ -105,6 +118,12 @@ export interface IUseData {
 
   notifications: INotification[];
   handleNotifications: (data?: INotification[]) => void;
+
+  dashboardUpdated: boolean;
+  setDashboardUpdated: (data?: boolean) => void;
+
+  newBetUpdated: boolean;
+  setNewBetUpdated: (data?: boolean) => void;
 }
 
 export interface ITranslate {

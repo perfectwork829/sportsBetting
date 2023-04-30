@@ -12,10 +12,10 @@ import {ICategory, IBet} from '../constants/types';
 const isAndroid = Platform.OS === 'android';
 
 const betDetail = ({route}) => {
-  const {user, setDashboardUpdated} = useData();
+  const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {assets, colors, sizes, gradients,icons} = useTheme();
+  const {assets, colors, sizes, fonts, gradients,icons} = useTheme();
   const [getResult, setGetResult] = useState(null);
   const [bet, setBet] = useState<IBet>();
   
@@ -41,34 +41,19 @@ const betDetail = ({route}) => {
     },
     [user],
   );
-  const fortmatResponse = (res) => {
+  const fortmatResponse = (res:any) => {
     return JSON.stringify(res, null, 2);
   };
-  const { betID } = route.params;
-  //set the special bet's status  
-  async function setBetStatus(id, winId) {  
-    try {      
-      const newStatus = {
-        status: winId        
-      };      
 
-      const res = await apiClient.post("/new_bets/"+ id + "/updateStatus/", newStatus);
-      const result = {
-        status: res.status + "-" + res.statusText,
-        headers: res.headers,
-        data: res.data,
-      };            
-      setGetResult(fortmatResponse(result));            
-    } catch (err) {      
-      console.log(err);      
-      setGetResult(fortmatResponse(err.response?.data || err));
-    }
+  const goDashboard = () => {
+    navigation.navigate('Dashboard');
   }
+  const { betID } = route.params;  
   //const { panelData } = this.props.navigation.getParam('betID');
   
   
   //get the special bet data  
-  async function getBetData(id) {  
+  async function getBetData(id:number) {  
     try {
       const res = await apiClient.get("/new_bets/all_bets/"+id);
 
@@ -76,9 +61,10 @@ const betDetail = ({route}) => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };                 
+      };           
+      console.log("settled bet start~~~~~~~~~~ ", res.data); 
       setBet(res.data);      
-      
+      console.log("settled bet is ");
     } catch (err) {      
       console.log(err);      
       setGetResult(fortmatResponse(err.response?.data || err));
@@ -86,7 +72,7 @@ const betDetail = ({route}) => {
   }
 
   useEffect(()=> {        
-    getBetData(betID);    
+    getBetData(betID);
   }, [betID]);
   
   return (
@@ -111,8 +97,6 @@ const betDetail = ({route}) => {
               onPress={() => navigation.goBack()}>
               <Image
                 radius={0}
-                width={10}
-                height={18}
                 color={colors.white}
                 source={assets.arrow}
                 transform={[{rotate: '180deg'}]}
@@ -126,83 +110,76 @@ const betDetail = ({route}) => {
                 Stepper
               </Text>
               <Text p center white>
-                Sports Betting Manager
+                Sprots Betting Manager
               </Text>
             </Block>
           </Image>
 
 
           <Block card padding={sizes.sm} marginTop={sizes.sm} > 
-            {/* user details */}
-            {user?.name && (
               <Block row marginLeft={sizes.xs} marginBottom={sizes.xs}>
-                <Text p bold flex={1}>
-                  {!bet ? "": bet["customerName"]}
-                </Text>
-                <Block justify="center" marginLeft={sizes.s} flex={1}>
-                  <Text p bold center primary>
-                    {(!bet || bet["0"]["live"]==0) ? "": "  LIVE"}                    
+                <Block justify="center" center> 
+                  <Text p semibold paddingTop={15} flex={1}>
+                    {!bet ? "": bet["customerName"]}
+                  </Text>
+                </Block>                
+                <Block justify="center"flex={2}>
+                  <Text p bold center primary>                    
+                    {(!bet || bet["0"]["live"]==0) ? "": "  LIVE"}    
                   </Text>
                   <Text info center>
                     {dayjs(!bet ? "": bet["0"]["created_at"]).format('DD MMMM')}
-                  </Text>                  
+                  </Text> 
+                  <Text p center white bold style={{tintColor: colors.icon, backgroundColor: '#E293D3'}}>
+                    {!bet ? "": bet["netProfit"]}$
+                  </Text>        
                 </Block>
-                <Text p bold flex={1}> 
+                <Block justify="center" center marginLeft={5}> 
+                  <Text p semibold paddingTop={15}>
                   {!bet ? "": bet["0"]["slip"]}
-                </Text>          
-              </Block>            
-            )}                                                     
+                  </Text>                   
+                </Block>                
+              </Block>                                                    
           </Block>  
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
-            <Text size={sizes.sm} h5 info>Slip</Text>
-            <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["slip"]}</Text>
+            <Text size={sizes.sm} h5 info bold>Slip</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": bet["0"]["slip"]}</Text>
           </Block>
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
-            <Text size={sizes.sm} h5 info>Amount</Text>
-            <Text size={sizes.sm} h5 >{!bet ? "" : bet["0"]["amount"]}$</Text>
+            <Text size={sizes.sm} h5 info bold>Amount</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "" : bet["0"]["amount"]}$</Text>
           </Block>
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
-            <Text size={sizes.sm} h5 info>Currency</Text>
-            <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["currency"]}</Text>
+            <Text size={sizes.sm} h5 info bold>Currency</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": bet["0"]["currency"]}</Text>
           </Block>
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
-            <Text size={sizes.sm} h5 info>Odds</Text>
-            <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["odds"]}</Text>
+            <Text size={sizes.sm} h5 info bold>Odds</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": bet["0"]["odds"]}</Text>
           </Block>
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
-            <Text size={sizes.sm} h5 info>Live</Text>
-            <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["live"]}</Text>
+            <Text size={sizes.sm} h5 info bold>Live</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": bet["0"]["live"]}</Text>
+          </Block>
+          <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
+            <Text size={sizes.sm} h5 info bold>Status</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": (bet["0"]["status"]==1)? "Win": "Lose"}</Text>
           </Block>
           <Block card flex={0} justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
-            <Text size={sizes.sm} h5 info>Note</Text>            
-            <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["notes"]}</Text>
-          </Block>
-          <Block row flex={0} align="center" justify="space-between" marginTop={sizes.md}>
-            <Button gradient={gradients.primary} marginHorizontal={sizes.s} onPress={(status) => {
-              setDashboardUpdated(true);
-              setBetStatus(betID, 1);
-              }}>
-              <Text white bold transform="uppercase" marginHorizontal={sizes.s}>
-                <Image source={icons.winner} marginRight={sizes.l} /> Win
-              </Text>
-            </Button>
-            <Button gradient={gradients.primary} onPress={(status) => {
-              setDashboardUpdated(true);
-              setBetStatus(betID, 1)
-            }}>
-              <Text white bold transform="uppercase" marginHorizontal={sizes.sm}>
-              <Image source={icons.cancel} marginRight={sizes.l} /> Void
-              </Text>
-            </Button>
-            <Button gradient={gradients.primary} onPress={(status) => {
-              setDashboardUpdated(true);
-              setBetStatus(betID, 0)
-            }}>
-              <Text white bold transform="uppercase" marginHorizontal={sizes.sm}>
-              <Image source={icons.loser} marginRight={sizes.l} /> Lose
-              </Text>
-            </Button>
-          </Block>          
+            <Text size={sizes.sm} h5 info bold>Note</Text>            
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": bet["0"]["notes"]}</Text>
+          </Block> 
+          <Button
+                primary
+                shadow={!isAndroid}
+                marginVertical={sizes.s}
+                marginHorizontal={sizes.xs}
+                marginTop={sizes.md}
+                onPress={() => goDashboard()}>
+                <Text bold white transform="uppercase">
+              {t('settledBets.btn_dashabord')}
+            </Text>
+          </Button>    
         </Block>
       </Block>
     </Block>

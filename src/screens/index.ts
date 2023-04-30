@@ -20,6 +20,8 @@ export {default as Pro} from './Pro';
 export {default as Dashboard} from './Dashboard';
 export {default as newBets} from './newBets';
 export {default as activeBets} from './activeBets';
+export {default as settledBets} from './settledBets';
 export {default as betDetail} from './betDetail';
+export {default as setDetail} from './setDetail';
 export {default as tabsBets} from './tabsBets';
 export {default as tabDetail} from './tabDetail';

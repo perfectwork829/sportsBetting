@@ -9,6 +9,7 @@ import Image from './Image';
 import Article from './Article';
 import Product from './Product';
 import Bet from './Bet';
+import BetSet from './BetSet';
 import Tab from './Tab';
 export {
   Block,
@@ -22,5 +23,6 @@ export {
   Product,
   Modal,
   Bet,
+  BetSet,
   Tab
 };

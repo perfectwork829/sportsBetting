@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Articles, Components, Home, Profile, Register, Pro, Dashboard, newBets, activeBets, betDetail, tabsBets, tabDetail} from '../screens';
+import {Articles, Components, Home, Profile, Register, Pro, Dashboard, newBets, activeBets, betDetail, tabsBets, tabDetail, settledBets, setDetail} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 
 const Stack = createStackNavigator();
@@ -49,6 +49,7 @@ export default () => {
         component={newBets}        
         options={screenOptions.newBets}
       />
+
       <Stack.Screen
         name="activeBets"
         component={activeBets}        
@@ -56,8 +57,20 @@ export default () => {
       />
 
       <Stack.Screen
+        name="settledBets"
+        component={settledBets}        
+        options={{title: t('settledBets.title')}}
+      />
+
+      <Stack.Screen
         name="betDetail"
         component={betDetail}        
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="setDetail"
+        component={setDetail}        
         options={{headerShown: false}}
       />
 
@@ -70,7 +83,7 @@ export default () => {
       <Stack.Screen
         name="tabsBets"
         component={tabsBets}        
-        options={{title: t('tabsBets.title')}}
+        options={screenOptions.tabLists}        
       />
 
       <Stack.Screen

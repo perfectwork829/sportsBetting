@@ -156,13 +156,22 @@
     "wins": "Wins",
     "aboutMe": "About me"
   },
+  "settledBets": {
+    "title": "Settled Bets",
+    "totalNet": "Total",
+    "netProfit": "Net Profit",    
+    "aboutMe": "About me",
+    "btn_dashabord": "Go Dashboard"
+  },  
   "tabsBets": {
     "title": "Tabs",
+    "namePlaceholder": "Enter Host/Customer",
     "register":"Please register a new host.",
     "totalNet": "Total",
     "netProfit": "Net Profit",
     "wins": "Wins",
     "aboutMe": "About me",
-    "money_type": "Enter amount of the money"
+    "money_type": "Enter amount of the money",
+    "btn_save": "Save"
   }
 }

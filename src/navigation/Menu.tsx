@@ -68,7 +68,7 @@ const DrawerContent = (
   const {navigation} = props;
   const {t} = useTranslation();
   const {isDark, handleIsDark} = useData();
-  const [active, setActive] = useState('Home');
+  const [active, setActive] = useState('Dashboard');
   const {assets, colors, gradients, sizes} = useTheme();
   const labelColor = colors.text;
 
@@ -87,19 +87,19 @@ const DrawerContent = (
     {name: t('screens.dashboard'), to: 'Dashboard', icon: assets.home},
     {name: t('screens.newBets'), to: 'newBets', icon: assets.apple},
     {name: t('screens.active'), to: 'activeBets', icon: assets.bell},
-    // {name: t('screens.settled'), to: 'SettledBet', icon: assets.check},
+    {name: t('screens.settled'), to: 'settledBets', icon: assets.check},
     {name: t('screens.tabs'), to: 'tabsBets', icon: assets.payment},
     {name: t('screens.irc'), to: 'IRC', icon: assets.winner},    
     {name: t('screens.customer'), to: 'Customer', icon: assets.users},    
     {name: t('screens.giveWays'), to: 'Giveways', icon: assets.flight},    
-    {name: t('screens.home'), to: 'Home', icon: assets.home},    
-    {name: t('screens.components'), to: 'Components', icon: assets.components},
-    {name: t('screens.articles'), to: 'Articles', icon: assets.document},
-    {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
-    {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
-    {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
-    {name: t('screens.register'), to: 'Register', icon: assets.register},
-    {name: t('screens.extra'), to: 'Pro', icon: assets.extras}    
+    // {name: t('screens.home'), to: 'Home', icon: assets.home},    
+    // {name: t('screens.components'), to: 'Components', icon: assets.components},
+    // {name: t('screens.articles'), to: 'Articles', icon: assets.document},
+    // {name: t('screens.rental'), to: 'Pro', icon: assets.rental},
+    // {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+    // {name: t('screens.settings'), to: 'Pro', icon: assets.settings},
+    // {name: t('screens.register'), to: 'Register', icon: assets.register},
+    // {name: t('screens.extra'), to: 'Pro', icon: assets.extras}    
   ];  
 
   return (
