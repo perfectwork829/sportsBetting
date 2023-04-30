@@ -44,7 +44,6 @@ const tabBests = () => {
   const {assets, colors, gradients, sizes, icons} = useTheme();
   const headerHeight = useHeaderHeight();
   const [newCustomerResult, setNewCustomerResult] = useState(null);
-  const [allCustomer, setAllCustomer] = useState<IRegistration[]>([]);  
 
   const [inputList, setInputList] = useState([]);  
   const fortmatResponse = (res:any) => {
@@ -61,12 +60,11 @@ const tabBests = () => {
         headers: res.headers,
         data: res.data
       };      
-      setAllCustomer(res.data);               
-      result['data'].map((customer:any)=>{
-        console.log('customer ====>>>', customer);
-        setInputList([...inputList, { name: customer.name, id: customer.id}]);               
-      });
-      console.log('inputList list====>', inputList);
+      
+      const staticData = result['data'].map((customer:any) => {
+        return {id: customer.id, name: customer.name}
+      })
+      setInputList(staticData);
     } catch (err) {      
       console.log(err);            
     }
@@ -88,7 +86,6 @@ const tabBests = () => {
  
   //create new Customer.
   async function createNewCustomer() {
-    console.log('registration.name==>', registration.name);
     const newCustomer = {
       name: registration.name,      
     };
@@ -228,7 +225,7 @@ const tabBests = () => {
               <Block paddingHorizontal={sizes.sm}>
                 {inputList.map((x, i) => {
                     return (
-                      <Block row center justify="space-evenly" flex={0}>                        
+                      <Block row center justify="space-evenly" flex={0} key={i}>                        
                         <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs} 
                                 onPress={() => viewDetail(x['id'], x['name'])}>                                  
                             <Text white bold transform="uppercase">
