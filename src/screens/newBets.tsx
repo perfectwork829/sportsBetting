@@ -57,6 +57,7 @@ const newBets = () => {
   const [customerNames, setCustomerNames] = useState([]);
   const [customerID, setCustomerID] = useState();
   const [splitters, setSplitter] = useState('nothing');
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const headerHeight = useHeaderHeight();
   
   const [inputList, setInputList] = useState([]);
@@ -127,8 +128,14 @@ const newBets = () => {
  
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { secondary_name: "", secondary_amount: 0 }]);
+    setInputList([...inputList, { secondary_name: "", secondary_id: 0, secondary_amount: 0 }]);
   };
+
+  useEffect(()=>{
+    console.log('Cusomter:', customerName, ' ', customerID);
+    console.log('Splitters');
+    console.log(inputList)
+  }, [inputList])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -164,7 +171,8 @@ const newBets = () => {
   
   const [switch1, setSwitch1] = useState(true);
   const [showModal, setModal] = useState(false);  
-  const [showCustomerModal, setCustomerModal] = useState(false);  
+  const [showCustomerModal, setCustomerModal] = useState(false);
+  const [isSplitters, setIsSplitters] = useState(false);
   useEffect(() => {
     setIsValid((state) => ({
       ...state,
@@ -214,7 +222,11 @@ const newBets = () => {
                   flex={1}
                   row
                   gradient={gradients.primary}
-                  onPress={() => setCustomerModal(true)}
+                  onPress={() => {
+                    setCustomerModal(true)
+                    setIsSplitters(false)
+                    setCurrentIndex(-1)
+                  }}
                   marginBottom={sizes.xs}
                   >
                   <Block
@@ -297,15 +309,33 @@ const newBets = () => {
                 </Block>
                 {inputList.map((x, i) => {
                     return (
-                      <Block row center justify="space-between" flex={0} marginBottom={sizes.sm}>
-                        <Input
-                          autoCapitalize="none"                          
-                          label={t('newBets.name')}
-                          placeholder={t('newBets.namePlaceholder')}
-                          success={Boolean(registration.name && isValid.name)}
-                          danger={Boolean(registration.name && !isValid.name)}                          
-                          style={{width: '40%'}}                          
-                        />
+                      <Block row center justify="space-between" flex={0} marginBottom={sizes.sm} key={i}>
+                        <Button
+                          flex={1}
+                          row
+                          gradient={gradients.primary}
+                          onPress={() => {
+                            setCustomerModal(true)
+                            setIsSplitters(true)
+                            setCurrentIndex(i)
+                          }}
+                          marginBottom={sizes.xs}
+                          >
+                          <Block
+                            row
+                            align="center"
+                            justify="space-between"
+                            paddingHorizontal={sizes.sm}>
+                            <Text white bold transform="uppercase" marginRight={sizes.sm}>
+                              {x.secondary_name}
+                            </Text>
+                            <Image
+                              source={assets.arrow}
+                              color={colors.white}
+                              transform={[{rotate: '90deg'}]}
+                            />
+                          </Block>
+                        </Button>
                         <Input
                           autoCapitalize="none"                          
                           label={t('newBets.amount')}
@@ -313,6 +343,18 @@ const newBets = () => {
                           success={Boolean(registration.amount && isValid.amount)}
                           danger={Boolean(registration.amount && !isValid.amount)}                          
                           style={{width: '40%'}}
+                          defaultValue={x.secondary_amount.toString()}
+                          onChangeText={(value)=>{
+                            setInputList([
+                              ...inputList.slice(0, i),
+                              {
+                                secondary_name: inputList[i]['secondary_name'],
+                                secondary_id: inputList[i]['secondary_id'],
+                                secondary_amount:  value
+                              },
+                              ...inputList.slice(i + 1)
+                            ])
+                          }}
                         />   
                         <Button paddingTop={sizes.md}              
                           onPress={() => handleRemoveClick(i)}>
@@ -351,15 +393,30 @@ const newBets = () => {
               </Modal>    
               <Modal visible={showCustomerModal} onRequestClose={() => setCustomerModal(false)}>
                 <FlatList
-                  keyExtractor={(index) => `${index}`}
+                  keyExtractor={(item) => `${item.id}`}
                   data={customerNames}
                   renderItem={({item}) => (
                     <Button
                       marginBottom={sizes.sm}
                       onPress={() => {
-                        setCustomerName(item.name);
-                        setCustomerID(item.id);
-                        setCustomerModal(false);
+                        if(isSplitters == true) { // When user click splitters namebox.
+                          console.log("My Index is ", currentIndex);
+                          setInputList([
+                            ...inputList.slice(0, currentIndex),
+                            {
+                              secondary_name: item.name,
+                              secondary_id: item.id,
+                              secondary_amount:  inputList[currentIndex]['secondary_amount']
+                            },
+                            ...inputList.slice(currentIndex + 1)
+                          ])
+                          setCustomerModal(false);
+                        } else { // When user click the top name box
+                          console.log("This is top level change");
+                          setCustomerName(item.name);
+                          setCustomerID(item.id);
+                          setCustomerModal(false);
+                        }
                       }}>
                       <Text p white semibold transform="uppercase">
                         {item.name}

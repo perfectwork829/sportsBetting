@@ -62,8 +62,10 @@ const tabBests = () => {
       };      
       
       const staticData = result['data'].map((customer:any) => {
-        return {id: customer.id, name: customer.name}
-      })
+        return {id: customer.id, name: customer.name, total: customer.total}
+      });
+      console.log('staticData', staticData);
+
       setInputList(staticData);
     } catch (err) {      
       console.log(err);            
@@ -228,7 +230,7 @@ const tabBests = () => {
                       <Block row center justify="space-evenly" flex={0} key={i}>                        
                         <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs} 
                                 onPress={() => viewDetail(x['id'], x['name'])}>                                  
-                            <Text white bold transform="uppercase">
+                            <Text white bold transform="capitalize" size={16}>
                                 {x['name']}-{x['total']}$
                             </Text>
                         </Button>
