@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Platform, Linking} from 'react-native';
+import {Platform, Linking, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 import dayjs from 'dayjs';
 
 import {Block, Button, Image, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
-import apiClient from "../constants/http-common"
+import apiClient from "../constants/http-common";
 import {ICategory, IBet} from '../constants/types';
 
 const isAndroid = Platform.OS === 'android';
@@ -172,15 +172,35 @@ const betDetail = ({route}) => {
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
             <Text size={sizes.sm} h5 info>Live</Text>
             <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["live"]}</Text>
-          </Block>
+          </Block>   
           <Block card flex={0} justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
             <Text size={sizes.sm} h5 info>Note</Text>            
             <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["notes"]}</Text>
-          </Block>
+          </Block>                 
+          <Text
+            h5
+            bold
+            transform="uppercase"          
+            gradient={gradients.primary}
+            marginTop={sizes.sm}
+            align="center"
+            >
+            Splitter Users
+          </Text>
+          
+          {bet && (bet["0"]["arrSplitters"]).map((item, idx)=>(                              
+            <Block card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
+              <Text key={idx} size={sizes.sm} h4 info >{item.name}</Text>
+              <Text key={idx+`{$idx}`} size={sizes.sm} h4 >${item.amount}</Text>
+            </Block>  
+          ))}
+          
+          
           <Block row flex={0} align="center" justify="space-between" marginTop={sizes.md}>
             <Button gradient={gradients.primary} marginHorizontal={sizes.s} onPress={(status) => {
-              setDashboardUpdated(true);
-              setBetStatus(betID, 1);
+                setDashboardUpdated(true);
+                setBetStatus(betID, 1);
+                navigation.navigate('Dashboard');
               }}>
               <Text white bold transform="uppercase" marginHorizontal={sizes.s}>
                 <Image source={icons.winner} marginRight={sizes.l} /> Win
@@ -188,18 +208,20 @@ const betDetail = ({route}) => {
             </Button>
             <Button gradient={gradients.primary} onPress={(status) => {
               setDashboardUpdated(true);
-              setBetStatus(betID, 1)
+              setBetStatus(betID, 1);
+              navigation.navigate('Dashboard');
             }}>
               <Text white bold transform="uppercase" marginHorizontal={sizes.sm}>
-              <Image source={icons.cancel} marginRight={sizes.l} /> Void
+                <Image source={icons.cancel} marginRight={sizes.l} /> Void
               </Text>
             </Button>
             <Button gradient={gradients.primary} onPress={(status) => {
               setDashboardUpdated(true);
-              setBetStatus(betID, 0)
+              setBetStatus(betID, 0);
+              navigation.navigate('Dashboard');
             }}>
               <Text white bold transform="uppercase" marginHorizontal={sizes.sm}>
-              <Image source={icons.loser} marginRight={sizes.l} /> Lose
+                <Image source={icons.loser} marginRight={sizes.l} /> Lose
               </Text>
             </Button>
           </Block>          

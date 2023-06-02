@@ -165,7 +165,7 @@
   },  
   "tabsBets": {
     "title": "Tabs",
-    "namePlaceholder": "Enter Host/Customer",
+    "namePlaceholder": "Enter Host",
     "register":"Please register a new host.",
     "totalNet": "Total",
     "netProfit": "Net Profit",
@@ -173,5 +173,31 @@
     "aboutMe": "About me",
     "money_type": "Enter amount of the money",
     "btn_save": "Save"
-  }
+  },
+  "customer": {
+    "title": "Tabs",
+    "namePlaceholder": "Enter Customer",
+    "register":"Please register a new Customer.",
+    "totalNet": "Total",
+    "netProfit": "Net Profit",
+    "wins": "Wins",
+    "aboutMe": "About me",
+    "money_type": "Enter amount of the money",
+    "btn_save": "Save"
+  },
+  "IRC":{
+    "title": "IRC",
+    "title_description": "IRC Setting",
+    "amount": "Amount",
+    "currency_dollar": "Currency-$",
+    "currency_game": "Currency-m",
+    "namePlaceholder": "Enter amount"
+  },
+  "giveAways":{
+    "title": "GiveAways",
+    "title_description": "GiveAways Setting",
+  },
+  "Customers":{
+    "title": "Customers"
+  },  
 }

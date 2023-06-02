@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {Platform, StatusBar} from 'react-native';
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
+
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 import Menu from './Menu';
@@ -15,8 +17,9 @@ export default () => {
     Platform.OS === 'android' && StatusBar.setTranslucent(true);
     StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content');
     return () => {
-      StatusBar.setBarStyle('default');
+      StatusBar.setBarStyle('default');      
     };
+    
   }, [isDark]);
 
   // load custom fonts

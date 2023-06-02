@@ -8,12 +8,19 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 import apiClient from "../constants/http-common"
 
 const isAndroid = Platform.OS === 'android';
+interface MoneySum {
+  sports?: number;
+  net?: number;
+  irc?: number;
+}
 
 const Dashboard = () => {
   const {user, dashboardUpdated, setDashboardUpdated} = useData();
+  
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const [sportSum, setSportsSum] = useState(0);  
+  const [moneySum, setMoneySum] = useState<MoneySum>();
+
   const {assets, colors, sizes, gradients} = useTheme();  
   const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
   const IMAGE_VERTICAL_SIZE =
@@ -38,22 +45,24 @@ const Dashboard = () => {
   );
    //get the all Stepper' net profit.
    async function getTotalNetProfitList() {  
+    console.log('get total net profit start');
     try {
-      const res = await apiClient.get("/customer_sum_net");
+      const res = await apiClient.get("/all_customers");
 
       const result = {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
       };            
-      setSportsSum(res.data[0]);   
-      console.log(res.data);
-    } catch (err) {      
-      console.log(err);      
-      setGetResult(fortmatResponse(err.response?.data || err));
-    }
-  }
+      //setSportsSum(res.data['total']);   
+      console.log('total amount===========>', res.data);
+      setMoneySum({'sports' : res.data['total'], 'net' : res.data['net'], 'irc' : res.data['irc']})      
 
+    } catch (err) {            
+      console.log(err.response?.data || err);            
+    }
+    console.log('get total net profit end');
+  }
  
   useEffect(()=> {  
     getTotalNetProfitList();       
@@ -121,15 +130,15 @@ const Dashboard = () => {
               paddingVertical={sizes.sm}
               renderToHardwareTextureAndroid>
               <Block align="center">
-                <Text h5>{sportSum}$</Text>
+                <Text h5>{moneySum?.sports}$</Text>
                 <Text>{t('dashboard.sports')}</Text>
               </Block>
               <Block align="center">
-                <Text h5>{sportSum}$</Text>
+                <Text h5>{moneySum?.net}$</Text>
                 <Text>{t('dashboard.net')}</Text>
               </Block>
               <Block align="center">
-                <Text h5>0$</Text>
+                <Text h5>{moneySum?.irc}$</Text>
                 <Text>{t('dashboard.irc')}</Text>
               </Block>
             </Block>
@@ -164,21 +173,21 @@ const Dashboard = () => {
             </Button>
         </Block>
         <Block paddingHorizontal={sizes.base}>
-            <Button flex={1} gradient={gradients.secondary} marginBottom={sizes.xs}>
+            <Button flex={1} gradient={gradients.secondary} marginBottom={sizes.xs} onPress={() => navigation.navigate('IRC')}>
                 <Text white bold transform="uppercase">
                     IRC
                 </Text>
             </Button>
         </Block>    
         <Block paddingHorizontal={sizes.base}>
-            <Button flex={1} gradient={gradients.primary} marginBottom={sizes.xs}>
+            <Button flex={1} gradient={gradients.primary} marginBottom={sizes.xs} onPress={() => navigation.navigate('Customers')}>
                 <Text white bold transform="uppercase">
                     Customers
                 </Text>
             </Button>
         </Block>   
         <Block paddingHorizontal={sizes.base}>
-            <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs}>
+            <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs} onPress={() => navigation.navigate('giveAways')}>
                 <Text white bold transform="uppercase">
                   GIVEAWAYS
                 </Text>

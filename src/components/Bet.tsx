@@ -18,12 +18,14 @@ const Bet = ({
   odds,
   amount,
   live,
+  customer_name,
   bsplitter,
   notes,
   currency,
   splitters,
   status,
   created_at,
+  arrSplitters,
   onPress,
 }: IBet) => {
     const {t} = useTranslation();
@@ -39,8 +41,8 @@ const Bet = ({
       <Block card padding={sizes.sm} marginTop={sizes.sm} >
         <Block row marginTop={sizes.sm}>
           <Block justify="center" center>            
-            <Text p semibold>
-              Stepper Manager
+            <Text p semibold center>
+              {customer_name}
             </Text>
           </Block>
           <Block center marginRight={25}>

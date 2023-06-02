@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Articles, Components, Home, Profile, Register, Pro, Dashboard, newBets, activeBets, betDetail, tabsBets, tabDetail, settledBets, setDetail} from '../screens';
+import {Articles, Components, Home, Profile, Register, Pro, Dashboard, newBets, activeBets, betDetail, tabsBets, tabDetail, settledBets, setDetail, IRC, giveAways, Customers} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 
 const Stack = createStackNavigator();
@@ -89,6 +89,24 @@ export default () => {
       <Stack.Screen
         name="Register"
         component={Register}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="IRC"
+        component={IRC}        
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="Customers"
+        component={Customers}        
+        options={screenOptions.tabLists}        
+      />
+
+      <Stack.Screen
+        name="giveAways"
+        component={giveAways}        
         options={{headerShown: false}}
       />
     </Stack.Navigator>

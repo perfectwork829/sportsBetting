@@ -25,7 +25,7 @@ interface IRegistrationValidation {
   agreed: boolean;
 }
 
-const tabBests = () => {
+const Customers = () => {
   const {isDark, setNewBetUpdated} = useData();  
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -50,19 +50,18 @@ const tabBests = () => {
     return JSON.stringify(res, null, 2);
   };
 
-  //display all the hosts.
-  async function displayAllHosts() {  
+  //display all the Customers.
+  async function displayAllCustomer() {  
     try {
-      const res = await apiClient.get("/all_splitters");
+      const res = await apiClient.get("/all_customers");
 
       const result = {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data
       };      
-      
       console.log("result['data']", result['data']);
-      const staticData = result['data']['hosts'].map((customer:any) => {
+      const staticData = result['data']['customer'].map((customer:any) => {
         return {id: customer.id, name: customer.name, total_perfect: customer.total_perfect, total_game: customer.total_game}
       });
       console.log('staticData', staticData);
@@ -74,7 +73,7 @@ const tabBests = () => {
   }
 
   useEffect(() => {
-    displayAllHosts();
+    displayAllCustomer();
   }, []);
   // handle input change
  
@@ -84,14 +83,14 @@ const tabBests = () => {
     list.splice(index, 1);
     setInputList(list);
     setNewBetUpdated(true);
-    deleteHost(inputList[index]['name']);
+    deleteCustomer(inputList[index]['name']);
   };
  
-  //create new host.
-  async function createHost() {
+  //create new Customer.
+  async function createNewCustomer() {
     const newCustomer = {
-      name: registration.name, 
-      flag: 0     
+      name: registration.name,
+      flag: 1      
     };
 
     try {
@@ -113,12 +112,11 @@ const tabBests = () => {
     }
   }
 
-  //delete host.
-  async function deleteHost(del_customer_name: any) {
+  //delete Customer.
+  async function deleteCustomer(del_customer_name: any) {
     
     const delCustomer = {
-      name: del_customer_name,
-      flag: 0      
+      name: del_customer_name,      
     };    
     try {      
       const res = await apiClient.post("/customer/destroy", delCustomer, {
@@ -141,7 +139,7 @@ const tabBests = () => {
   // handle click event of the Add button
   const handleAddClick = () => {       
     //registration.name
-    createHost();
+    createNewCustomer();
     setNewBetUpdated(true);
     setInputList([...inputList, { id: 0, name: registration.name}]);    
   };
@@ -198,12 +196,12 @@ const tabBests = () => {
               tint={colors.blurTint}
               paddingVertical={sizes.sm}>
               <Text h5 semibold center marginBottom={sizes.md} marginTop={sizes.xxl} paddingTop={sizes.md}>
-                {t('tabsBets.register')}
+                {t('customer.register')}
               </Text>              
               <Block row paddingHorizontal={sizes.sm} marginBottom={sizes.md}>
                   <Input
                     autoCapitalize="none"                    
-                    placeholder={t('tabsBets.namePlaceholder')}                    
+                    placeholder={t('customer.namePlaceholder')}                    
                     style={{width: '85%'}}    
                     success={Boolean(registration.name && isValid.name)}
                     danger={Boolean(registration.name && !isValid.name)}
@@ -251,4 +249,4 @@ const tabBests = () => {
   );
 };
 
-export default tabBests;
+export default Customers;

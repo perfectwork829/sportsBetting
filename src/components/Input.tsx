@@ -152,7 +152,7 @@ const Input = ({
             source={assets.warning}
             style={{
               marginRight: sizes.s,
-              tintColor: colors.danger,
+              // tintColor: colors.danger,
             }}
           />
         )}
@@ -163,7 +163,7 @@ const Input = ({
               width: 12,
               height: 9,
               marginRight: sizes.s,
-              tintColor: colors.success,
+              // tintColor: colors.success,
             }}
           />
         )}

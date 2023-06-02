@@ -19,6 +19,7 @@ const BetSet = ({
   odds,
   amount,
   live,
+  customer_name,
   bsplitter,
   notes,
   currency,
@@ -42,7 +43,7 @@ const BetSet = ({
         <Block row marginTop={sizes.sm}>
           <Block justify="center" center>            
             <Text p semibold>
-              Stepper Manager
+              {customer_name}
             </Text>
           </Block>
           <Block justify="center" marginRight={25}>
@@ -52,7 +53,7 @@ const BetSet = ({
               <Text info center>
                 {dayjs(created_at).format('DD MMMM')}
               </Text>     
-              <Text p center white bold style={{tintColor: colors.icon, backgroundColor: '#E293D3'}}>
+              <Text p center white bold style={{backgroundColor: '#E293D3'}}>
                 {netProfit}$
               </Text>          
           </Block>

@@ -25,3 +25,8 @@ export {default as betDetail} from './betDetail';
 export {default as setDetail} from './setDetail';
 export {default as tabsBets} from './tabsBets';
 export {default as tabDetail} from './tabDetail';
+export {default as IRC} from './IRC';
+export {default as Customers} from './Customers';
+export {default as giveAways} from './giveAways';
+
+

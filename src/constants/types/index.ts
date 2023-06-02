@@ -58,6 +58,7 @@ export interface IBet {
   status?: number;
   created_at?: Date;
   netProfit?: number;
+  arrSplitters: Array;
   onPress?: (event?: any) => void;
 }
 

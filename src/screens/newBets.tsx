@@ -46,7 +46,7 @@ const newBets = () => {
     name: '',
     slip: '',
     odds: 0,
-    amount: 0,
+    amount: '',
     notes: ''
   });
   const {assets, colors, gradients, sizes, icons} = useTheme();
@@ -55,8 +55,10 @@ const newBets = () => {
   const [quantity, setQuantity] = useState('a(applepay)');
   const [customerName, setCustomerName] = useState('');
   const [customerNames, setCustomerNames] = useState([]);
+  const [hostNames, setHostNames] = useState([]);
+  
   const [customerID, setCustomerID] = useState();
-  const [splitters, setSplitter] = useState('nothing');
+  const [splitters, setSplitter] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const headerHeight = useHeaderHeight();
   
@@ -76,7 +78,23 @@ const newBets = () => {
           data: res.data,
         };
 
-        setCustomerNames(res["data"]);
+        setCustomerNames(res["data"]['customer']);
+        setGetResult(fortmatResponse(result));
+      } catch (err) {        
+        console.log(err);        
+        setGetResult(fortmatResponse(err.response?.data || err));
+      }
+
+      try {
+        const res = await apiClient.get("/all_splitters");
+  
+        const result = {
+          status: res.status + "-" + res.statusText,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        setHostNames(res["data"]['hosts']);
         setGetResult(fortmatResponse(result));
       } catch (err) {        
         console.log(err);        
@@ -86,6 +104,7 @@ const newBets = () => {
 
   //create new bet.
   async function createNewBet() {
+    console.log('splitters is ===>', splitters);
     const newBetData = {
       slip: registration.slip,
       odds: registration.odds,
@@ -94,12 +113,12 @@ const newBets = () => {
       bsplitter: 1,
       notes: registration.notes,
       currency: quantity,
-      splitters: splitters,
+      splitters1: splitters,
       status: 3,
-      customer_id: customerID,
-      splitters1: [{customer_id: 12, amount: 500}]
+      customer_id: customerID
     };
     
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', splitters);
     try {
       const res = await apiClient.post("/new_bets/store", newBetData, {
         headers: {
@@ -128,13 +147,13 @@ const newBets = () => {
  
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { secondary_name: "", secondary_id: 0, secondary_amount: 0 }]);
+    setInputList([...inputList, { customer_id: 0, name: "", amount: "" }]);
   };
 
   useEffect(()=>{
-    console.log('Cusomter:', customerName, ' ', customerID);
-    console.log('Splitters');
-    console.log(inputList)
+    console.log('Cusomter:', customerName, '========== ', customerID);
+    console.log('Splitters',  inputList);    
+    setSplitter(inputList)
   }, [inputList])
 
   useLayoutEffect(() => {
@@ -306,28 +325,26 @@ const newBets = () => {
                     onPress={() => handleAddClick()}>
                       <Image source={icons.plus} marginRight={sizes.s} />
                   </Button>                                         
-                </Block>
+                </Block>                
                 {inputList.map((x, i) => {
-                    return (
-                      <Block row center justify="space-between" flex={0} marginBottom={sizes.sm} key={i}>
-                        <Button
-                          flex={1}
-                          row
+                    return (                      
+                      <Block row center justify="space-between" flex={1} key={i} >
+                        <Button                        
+                          row flex={2} marginTop={14} marginRight={5}
                           gradient={gradients.primary}
                           onPress={() => {
                             setCustomerModal(true)
                             setIsSplitters(true)
                             setCurrentIndex(i)
                           }}
-                          marginBottom={sizes.xs}
-                          >
+                          >                           
                           <Block
-                            row
+                            row 
                             align="center"
                             justify="space-between"
-                            paddingHorizontal={sizes.sm}>
+                            paddingHorizontal={sizes.sm}>                            
                             <Text white bold transform="uppercase" marginRight={sizes.sm}>
-                              {x.secondary_name}
+                              {x.name}
                             </Text>
                             <Image
                               source={assets.arrow}
@@ -336,27 +353,29 @@ const newBets = () => {
                             />
                           </Block>
                         </Button>
-                        <Input
-                          autoCapitalize="none"                          
-                          label={t('newBets.amount')}
-                          placeholder={t('newBets.amountPlaceholder')}
-                          success={Boolean(registration.amount && isValid.amount)}
-                          danger={Boolean(registration.amount && !isValid.amount)}                          
-                          style={{width: '40%'}}
-                          defaultValue={x.secondary_amount.toString()}
-                          onChangeText={(value)=>{
-                            setInputList([
-                              ...inputList.slice(0, i),
-                              {
-                                secondary_name: inputList[i]['secondary_name'],
-                                secondary_id: inputList[i]['secondary_id'],
-                                secondary_amount:  value
-                              },
-                              ...inputList.slice(i + 1)
-                            ])
-                          }}
-                        />   
-                        <Button paddingTop={sizes.md}              
+                        <Input      
+                            row flex={1}                            
+                              
+                            autoCapitalize="none"                          
+                            label=" "
+                            placeholder={t('newBets.amountPlaceholder')}
+                            success={Boolean(registration.amount && isValid.amount)}
+                            danger={Boolean(registration.amount && !isValid.amount)}                          
+                            style={{width: '30%'}}
+                            defaultValue={x.amount.toString()}                            
+                            onChangeText={(value)=>{
+                              setInputList([
+                                ...inputList.slice(0, i),
+                                {
+                                  customer_id: inputList[i]['customer_id'],
+                                  name: inputList[i]['name'],
+                                  amount:  value
+                                },
+                                ...inputList.slice(i + 1)
+                              ])
+                            }}
+                        />                        
+                        <Button paddingTop={sizes.md}               
                           onPress={() => handleRemoveClick(i)}>
                             <Image source={icons.remove} />
                         </Button>
@@ -376,7 +395,7 @@ const newBets = () => {
               <Modal visible={showModal} onRequestClose={() => setModal(false)}>
                 <FlatList
                   keyExtractor={(index) => `${index}`}
-                  data={["a-(applepay)", "e-(ethereum)", "z-(zelle)", "L-(litecoin)", "U-(usdt/usdc)", "m-(OSRS)"]}
+                  data={["a-(applepay)", "b-(bitcoin)", "e-(ethereum)", "z-(zelle)", "u-(usdt)", "m-(OSRS)"]}
                   renderItem={({item}) => (
                     <Button
                       marginBottom={sizes.sm}
@@ -394,19 +413,20 @@ const newBets = () => {
               <Modal visible={showCustomerModal} onRequestClose={() => setCustomerModal(false)}>
                 <FlatList
                   keyExtractor={(item) => `${item.id}`}
-                  data={customerNames}
+                  data={isSplitters? hostNames: customerNames}
                   renderItem={({item}) => (
                     <Button
-                      marginBottom={sizes.sm}
-                      onPress={() => {
+                      marginBottom={sizes.sm} 
+                      key={item.id}                     
+                      onPress={() => {                        
                         if(isSplitters == true) { // When user click splitters namebox.
                           console.log("My Index is ", currentIndex);
                           setInputList([
                             ...inputList.slice(0, currentIndex),
                             {
-                              secondary_name: item.name,
-                              secondary_id: item.id,
-                              secondary_amount:  inputList[currentIndex]['secondary_amount']
+                              customer_id: item.id,
+                              name: item.name,
+                              amount:  inputList[currentIndex]['amount']
                             },
                             ...inputList.slice(currentIndex + 1)
                           ])

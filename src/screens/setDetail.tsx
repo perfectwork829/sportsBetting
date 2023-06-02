@@ -119,7 +119,7 @@ const betDetail = ({route}) => {
           <Block card padding={sizes.sm} marginTop={sizes.sm} > 
               <Block row marginLeft={sizes.xs} marginBottom={sizes.xs}>
                 <Block justify="center" center> 
-                  <Text p semibold paddingTop={15} flex={1}>
+                  <Text p semibold paddingTop={15} flex={1} center>
                     {!bet ? "": bet["customerName"]}
                   </Text>
                 </Block>                
@@ -130,7 +130,7 @@ const betDetail = ({route}) => {
                   <Text info center>
                     {dayjs(!bet ? "": bet["0"]["created_at"]).format('DD MMMM')}
                   </Text> 
-                  <Text p center white bold style={{tintColor: colors.icon, backgroundColor: '#E293D3'}}>
+                  <Text p center white bold style={{backgroundColor: '#E293D3'}}>
                     {!bet ? "": bet["netProfit"]}$
                   </Text>        
                 </Block>
