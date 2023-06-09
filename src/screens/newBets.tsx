@@ -52,7 +52,7 @@ const newBets = () => {
   const {assets, colors, gradients, sizes, icons} = useTheme();
   const [getResult, setGetResult] = useState(null);
   const [newBetResult, setNewBetResult] = useState(null);
-  const [quantity, setQuantity] = useState('a(applepay)');
+  const [quantity, setQuantity] = useState('a-(applepay)');
   const [customerName, setCustomerName] = useState('');
   const [customerNames, setCustomerNames] = useState([]);
   const [hostNames, setHostNames] = useState([]);

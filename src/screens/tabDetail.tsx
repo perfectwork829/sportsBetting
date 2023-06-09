@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Platform, Linking} from 'react-native';
+import {Platform, Linking, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 import dayjs from 'dayjs';
@@ -36,15 +36,6 @@ const tabDetail = ({route}) => {
     u_usdt: 0,
     m_game_currency: 0
   });
-
-  // const handleChange = useCallback(
-  //   (value) => {
-  //     console.log('aaaaaaaaaaaa ~~~', value);
-  //     setRegistration((state) => ({...state, ...value}));
-  //     console.log('customer value is ~~~', customer);
-  //     console.log('registration value', registration);
-  //   },[]
-  // );
 
   const handleChange = (key: any, value: any) => {
     if(key == "a_apply_pay"){
@@ -199,33 +190,44 @@ const tabDetail = ({route}) => {
               </Image> 
               <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
                 <Text primary size={sizes.sm} h5 bold>a(Applepay) </Text>
-                <Input primary style={{width: '60%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.a_apply_pay.toString()=="0")? '': customer.a_apply_pay.toString()}
-                onChangeText={(value) => handleChange('a_apply_pay', value)}/>
-                
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 20}} defaultValue={!customer ? "0": (customer.a_apply_pay.toString()=="0")? '': customer.a_apply_pay.toString()}
+                  onChangeText={(value) => handleChange('a_apply_pay', value)}/>
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.a_apply_pay.toString()=="0")? '': customer.a_apply_pay.toString()}
+                  onChangeText={(value) => handleChange('a_apply_pay', value)}/>
               </Block>
               <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
                 <Text primary size={sizes.sm} h5 bold>b(bitcoin) </Text>
-                <Input primary style={{width: '60%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.b_bitcoin.toString()=="0")?'': customer.b_bitcoin.toString()}
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 35}} defaultValue={!customer ? "0": (customer.b_bitcoin.toString()=="0")?'': customer.b_bitcoin.toString()}
+                onChangeText={(value) => handleChange('b_bitcoin', value)}/>
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.b_bitcoin.toString()=="0")?'': customer.b_bitcoin.toString()}
                 onChangeText={(value) => handleChange('b_bitcoin', value)}/>
               </Block>
               <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
                 <Text primary size={sizes.sm} h5 bold>e(ethereum) </Text>
-                <Input primary style={{width: '60%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.e_ethereum.toString()=="0")? '':customer.e_ethereum.toString()}
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 12}} defaultValue={!customer ? "0": (customer.e_ethereum.toString()=="0")? '':customer.e_ethereum.toString()}
+                onChangeText={(value) => handleChange('e_ethereum', value)}/>
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.e_ethereum.toString()=="0")? '':customer.e_ethereum.toString()}
                 onChangeText={(value) => handleChange('e_ethereum', value)}/>
               </Block>
               <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
                 <Text primary size={sizes.sm} h5 bold>z(zelle) </Text>
-                <Input primary style={{width: '60%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.z_zelle.toString()=="0")? '': customer.z_zelle.toString()}
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 55}} defaultValue={!customer ? "0": (customer.z_zelle.toString()=="0")? '': customer.z_zelle.toString()}
+                onChangeText={(value) => handleChange('z_zelle', value)}/>
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.z_zelle.toString()=="0")? '': customer.z_zelle.toString()}
                 onChangeText={(value) => handleChange('z_zelle', value)}/>
               </Block>              
               <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
                 <Text primary size={sizes.sm} h5 bold>u(usdt) </Text>
-                <Input primary style={{width: '60%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.u_usdt.toString()=="0")?'': customer.u_usdt.toString()}
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 55}} defaultValue={!customer ? "0": (customer.u_usdt.toString()=="0")?'': customer.u_usdt.toString()}
+                onChangeText={(value) => handleChange('u_usdt', value)}/>
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.u_usdt.toString()=="0")?'': customer.u_usdt.toString()}
                 onChangeText={(value) => handleChange('u_usdt', value)}/>
               </Block>
               <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
                 <Text primary size={sizes.sm} h5 bold>m(OSRS) </Text>
-                <Input primary style={{width: '60%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.m_game_currency.toString()=="0")?'': customer.m_game_currency.toString()}
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 45}} defaultValue={!customer ? "0": (customer.m_game_currency.toString()=="0")?'': customer.m_game_currency.toString()}
+                onChangeText={(value) => handleChange('m_game_currency', value)}/>
+                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} defaultValue={!customer ? "0": (customer.m_game_currency.toString()=="0")?'': customer.m_game_currency.toString()}
                 onChangeText={(value) => handleChange('m_game_currency', value)}/>
               </Block>
               <Button

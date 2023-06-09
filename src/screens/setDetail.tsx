@@ -11,7 +11,7 @@ import {ICategory, IBet} from '../constants/types';
 
 const isAndroid = Platform.OS === 'android';
 
-const betDetail = ({route}) => {
+const setDetail = ({route}) => {
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -115,7 +115,6 @@ const betDetail = ({route}) => {
             </Block>
           </Image>
 
-
           <Block card padding={sizes.sm} marginTop={sizes.sm} > 
               <Block row marginLeft={sizes.xs} marginBottom={sizes.xs}>
                 <Block justify="center" center> 
@@ -130,8 +129,8 @@ const betDetail = ({route}) => {
                   <Text info center>
                     {dayjs(!bet ? "": bet["0"]["created_at"]).format('DD MMMM')}
                   </Text> 
-                  <Text p center white bold style={{backgroundColor: '#E293D3'}}>
-                    {!bet ? "": bet["netProfit"]}$
+                  <Text p center white bold style={{backgroundColor: ((!bet ? "": bet["netProfit"])>0)? '#FFA726': '#EC407A'}}>
+                    {!bet ? "": bet["netProfit"]}$                
                   </Text>        
                 </Block>
                 <Block justify="center" center marginLeft={5}> 
@@ -163,12 +162,34 @@ const betDetail = ({route}) => {
           </Block>
           <Block card row flex={0} align="center" justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
             <Text size={sizes.sm} h5 info bold>Status</Text>
-            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": (bet["0"]["status"]==1)? "Win": "Lose"}</Text>
+            <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": (parseInt(bet["0"]["status"])==1)? "Win": "Lose"}</Text>
           </Block>
           <Block card flex={0} justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
             <Text size={sizes.sm} h5 info bold>Note</Text>            
             <Text size={sizes.sm} h5 font={fonts?.medium}>{!bet ? "": bet["0"]["notes"]}</Text>
           </Block> 
+          <Text
+            h5
+            bold
+            transform="uppercase"          
+            gradient={gradients.primary}
+            marginTop={sizes.sm}
+            align="center"
+            >
+            Splitter Users
+          </Text>
+          
+          {bet && (bet["0"]["arrSplitters"]).map((item, idx)=>(                              
+            <Block key={item} card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
+              <Text key={item} size={sizes.sm} h4 info >{item.name}</Text>
+              <Text key={idx+ 'amount'} size={sizes.sm} h4 >${item.amount}</Text>
+            </Block>  
+          ))}
+          {            
+            !bet? <Block card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
+                    <Text  size={sizes.sm} h4 warning>{!bet ? "": "There is no any splitter Users at the moment"}</Text>
+                  </Block> : null
+          }
           <Button
                 primary
                 shadow={!isAndroid}
@@ -186,4 +207,4 @@ const betDetail = ({route}) => {
   );
 };
 
-export default betDetail;
+export default setDetail;

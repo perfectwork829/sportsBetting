@@ -63,7 +63,7 @@ const betDetail = ({route}) => {
       console.log(err);      
       setGetResult(fortmatResponse(err.response?.data || err));
     }
-  }
+  } 
   //const { panelData } = this.props.navigation.getParam('betID');
   
   
@@ -176,7 +176,7 @@ const betDetail = ({route}) => {
           <Block card flex={0} justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
             <Text size={sizes.sm} h5 info>Note</Text>            
             <Text size={sizes.sm} h5 >{!bet ? "": bet["0"]["notes"]}</Text>
-          </Block>                 
+          </Block> 
           <Text
             h5
             bold
@@ -189,11 +189,16 @@ const betDetail = ({route}) => {
           </Text>
           
           {bet && (bet["0"]["arrSplitters"]).map((item, idx)=>(                              
-            <Block card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
-              <Text key={idx} size={sizes.sm} h4 info >{item.name}</Text>
-              <Text key={idx+`{$idx}`} size={sizes.sm} h4 >${item.amount}</Text>
+            <Block key={item} card style={{flex: 1, flexDirection: 'row'}} justify="space-between" padding={sizes.sm} marginTop={sizes.xs}>
+              <Text key={item} size={sizes.sm} h4 info >{item.name}</Text>
+              <Text key={item.key} size={sizes.sm} h4 >${item.amount}</Text>
             </Block>  
           ))}
+          {            
+            !bet? <Block card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
+                    <Text key="no_splitter" size={sizes.sm} h4 warning>{!bet ? "": "There is no any splitter Users at the moment"}</Text>
+                  </Block> : null
+          }
           
           
           <Block row flex={0} align="center" justify="space-between" marginTop={sizes.md}>
@@ -208,7 +213,7 @@ const betDetail = ({route}) => {
             </Button>
             <Button gradient={gradients.primary} onPress={(status) => {
               setDashboardUpdated(true);
-              setBetStatus(betID, 1);
+              setBetStatus(betID, 2);
               navigation.navigate('Dashboard');
             }}>
               <Text white bold transform="uppercase" marginHorizontal={sizes.sm}>

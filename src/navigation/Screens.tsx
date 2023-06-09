@@ -101,7 +101,7 @@ export default () => {
       <Stack.Screen
         name="Customers"
         component={Customers}        
-        options={screenOptions.tabLists}        
+        options={screenOptions.customLists}        
       />
 
       <Stack.Screen

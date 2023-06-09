@@ -175,7 +175,7 @@
     "btn_save": "Save"
   },
   "customer": {
-    "title": "Tabs",
+    "title": "Customers",
     "namePlaceholder": "Enter Customer",
     "register":"Please register a new Customer.",
     "totalNet": "Total",

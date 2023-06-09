@@ -178,6 +178,23 @@ export default () => {
           <Image source={icons.menu} radius={0} color={colors.white} />
         </Button>
       ),
+    },
+
+    customLists: {
+      ...menu,
+      headerTransparent: true,
+      headerTitle: () => (
+        <Text p white semibold>
+          {t('customer.title')}
+        </Text>
+      ),
+      headerRight: () => null,
+      headerLeft: () => (
+        <Button
+          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+          <Image source={icons.menu} radius={0} color={colors.white} />
+        </Button>
+      ),
     }
   };
 

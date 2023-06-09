@@ -53,7 +53,7 @@ const BetSet = ({
               <Text info center>
                 {dayjs(created_at).format('DD MMMM')}
               </Text>     
-              <Text p center white bold style={{backgroundColor: '#E293D3'}}>
+              <Text p center white bold style={{backgroundColor: (netProfit>0)? '#FFA726': '#EC407A'}}>
                 {netProfit}$
               </Text>          
           </Block>
