@@ -230,7 +230,7 @@ const Customers = () => {
                     return (
                       <Block row center justify="space-evenly" flex={0} key={i}>                        
                         <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs} 
-                                onPress={() => viewDetail(x['id'], x['name'])}>                                  
+                                >  
                             <Text white bold size={17}>
                                 {x['name']}( {x['total_perfect']}$ | {x['total_game']}m )
                             </Text>

@@ -65,12 +65,19 @@ export interface IBet {
 export interface ICustomer {
   name?: string;
   id?: number;
-  a_apply_pay?: number;
-  b_bitcoin?: number;
-  e_ethereum?: number;
-  z_zelle?: number;  
-  u_usdt?: number;
-  m_game_currency?: number;
+  a_apply_pay1?: number;
+  b_bitcoin1?: number;
+  e_ethereum1?: number;
+  z_zelle1?: number;  
+  u_usdt1?: number;
+  m_game_currency1?: number;
+
+  a_apply_pay2?: number;
+  b_bitcoin2?: number;
+  e_ethereum2?: number;
+  z_zelle2?: number;  
+  u_usdt2?: number;
+  m_game_currency2?: number;
   onPress?: (event?: any) => void;
 }
 
@@ -122,6 +129,9 @@ export interface IUseData {
 
   dashboardUpdated: boolean;
   setDashboardUpdated: (data?: boolean) => void;
+
+  splitterUpdated: boolean;
+  setSplitterUpdated: (data?: boolean) => void;
 
   newBetUpdated: boolean;
   setNewBetUpdated: (data?: boolean) => void;

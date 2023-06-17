@@ -26,7 +26,7 @@ interface IRegistrationValidation {
 }
 
 const tabBests = () => {
-  const {isDark, setNewBetUpdated} = useData();  
+  const {isDark, setNewBetUpdated,splitterUpdated, setSplitterUpdated} = useData();  
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [isValid, setIsValid] = useState<IRegistrationValidation>({
@@ -76,6 +76,13 @@ const tabBests = () => {
   useEffect(() => {
     displayAllHosts();
   }, []);
+
+  useEffect(() => {
+    console.log("splitter updated with this value", splitterUpdated);
+    displayAllHosts();      
+    setSplitterUpdated(false);
+  }, [splitterUpdated]);
+
   // handle input change
  
   // handle click event of the Remove button

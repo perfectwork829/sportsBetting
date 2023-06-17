@@ -37,6 +37,7 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
   const [bets, setBets] = useState<IBet[]>(BETS);
   const [bet, setBet] = useState<IBet>({});
   const [dashboardUpdated, setDashboardUpdated] = useState(false);
+  const [splitterUpdated, setSplitterUpdated] = useState(false);
   const [newBetUpdated, setNewBetUpdated] = useState(false);
 
   
@@ -141,6 +142,8 @@ export const DataProvider = ({children}: {children: React.ReactNode}) => {
     handleBet,
     dashboardUpdated,
     setDashboardUpdated,
+    splitterUpdated,
+    setSplitterUpdated,
     newBetUpdated, 
     setNewBetUpdated,
   };

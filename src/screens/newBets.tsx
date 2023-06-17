@@ -70,15 +70,15 @@ const newBets = () => {
   //get the all customers' data  
    async function getCustomersData() {  
       try {
-        const res = await apiClient.get("/all_customers");
+        const res = await apiClient.get("/getCustomers");
   
         const result = {
           status: res.status + "-" + res.statusText,
           headers: res.headers,
           data: res.data,
         };
-
-        setCustomerNames(res["data"]['customer']);
+                
+        setCustomerNames(res['data'][0]);
         setGetResult(fortmatResponse(result));
       } catch (err) {        
         console.log(err);        

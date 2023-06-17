@@ -71,7 +71,7 @@
     "tabs": "Tabs List",
     "irc": "IRC",
     "customer": "Customers",
-    "giveWays": "GiveWays"
+    "giveWays": "Misc"
   },
   "navigation": {
     "home": "Sports Book",
@@ -195,7 +195,7 @@
   },
   "giveAways":{
     "title": "GiveAways",
-    "title_description": "GiveAways Setting",
+    "title_description": "Misc Setting",
   },
   "Customers":{
     "title": "Customers"

@@ -47,7 +47,7 @@ const Dashboard = () => {
    async function getTotalNetProfitList() {  
     console.log('get total net profit start');
     try {
-      const res = await apiClient.get("/all_customers");
+      const res = await apiClient.get("/home");
 
       const result = {
         status: res.status + "-" + res.statusText,
@@ -189,7 +189,7 @@ const Dashboard = () => {
         <Block paddingHorizontal={sizes.base}>
             <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs} onPress={() => navigation.navigate('giveAways')}>
                 <Text white bold transform="uppercase">
-                  GIVEAWAYS
+                  Misc
                 </Text>
             </Button>
         </Block>     
