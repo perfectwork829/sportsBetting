@@ -31,10 +31,8 @@ const activeBets = () => {
         headers: res.headers,
         data: res.data,
       };            
-      setBets(res.data[0]);   
-      console.log(res.data);
-    } catch (err) {      
-      console.log(err);      
+      setBets(res.data[0]);         
+    } catch (err) {             
       setGetResult(fortmatResponse(err.response?.data || err));
     }
   }

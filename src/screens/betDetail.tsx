@@ -59,8 +59,7 @@ const betDetail = ({route}) => {
         data: res.data,
       };            
       setGetResult(fortmatResponse(result));            
-    } catch (err) {      
-      console.log(err);      
+    } catch (err) {            
       setGetResult(fortmatResponse(err.response?.data || err));
     }
   } 
@@ -79,8 +78,7 @@ const betDetail = ({route}) => {
       };                 
       setBet(res.data);      
       
-    } catch (err) {      
-      console.log(err);      
+    } catch (err) {            
       setGetResult(fortmatResponse(err.response?.data || err));
     }
   }

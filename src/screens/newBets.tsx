@@ -80,8 +80,7 @@ const newBets = () => {
                 
         setCustomerNames(res['data'][0]);
         setGetResult(fortmatResponse(result));
-      } catch (err) {        
-        console.log(err);        
+      } catch (err) {                 
         setGetResult(fortmatResponse(err.response?.data || err));
       }
 
@@ -96,15 +95,13 @@ const newBets = () => {
 
         setHostNames(res["data"]['hosts']);
         setGetResult(fortmatResponse(result));
-      } catch (err) {        
-        console.log(err);        
+      } catch (err) {                
         setGetResult(fortmatResponse(err.response?.data || err));
       }
   }
 
   //create new bet.
-  async function createNewBet() {
-    console.log('splitters is ===>', splitters);
+  async function createNewBet() {    
     const newBetData = {
       slip: registration.slip,
       odds: registration.odds,
@@ -117,8 +114,7 @@ const newBets = () => {
       status: 3,
       customer_id: customerID
     };
-    
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', splitters);
+        
     try {
       const res = await apiClient.post("/new_bets/store", newBetData, {
         headers: {
@@ -150,9 +146,7 @@ const newBets = () => {
     setInputList([...inputList, { customer_id: 0, name: "", amount: "" }]);
   };
 
-  useEffect(()=>{
-    console.log('Cusomter:', customerName, '========== ', customerID);
-    console.log('Splitters',  inputList);    
+  useEffect(()=>{    
     setSplitter(inputList)
   }, [inputList])
 
@@ -183,8 +177,7 @@ const newBets = () => {
 
   const handleSignUp = useCallback(() => {
     if (!Object.values(isValid).includes(false)) {
-      /** send/save registratin data */
-      console.log('handleSignUp', registration);
+      /** send/save registratin data */      
     }
   }, [isValid, registration]);
   
@@ -419,8 +412,7 @@ const newBets = () => {
                       marginBottom={sizes.sm} 
                       key={item.id}                     
                       onPress={() => {                        
-                        if(isSplitters == true) { // When user click splitters namebox.
-                          console.log("My Index is ", currentIndex);
+                        if(isSplitters == true) { // When user click splitters namebox.                          
                           setInputList([
                             ...inputList.slice(0, currentIndex),
                             {
@@ -431,8 +423,7 @@ const newBets = () => {
                             ...inputList.slice(currentIndex + 1)
                           ])
                           setCustomerModal(false);
-                        } else { // When user click the top name box
-                          console.log("This is top level change");
+                        } else { // When user click the top name box                          
                           setCustomerName(item.name);
                           setCustomerID(item.id);
                           setCustomerModal(false);

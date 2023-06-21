@@ -61,12 +61,9 @@ const setDetail = ({route}) => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };           
-      console.log("settled bet start~~~~~~~~~~ ", res.data); 
-      setBet(res.data);      
-      console.log("settled bet is ");
-    } catch (err) {      
-      console.log(err);      
+      };                 
+      setBet(res.data);            
+    } catch (err) {            
       setGetResult(fortmatResponse(err.response?.data || err));
     }
   }

@@ -59,16 +59,14 @@ const Customers = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data
-      };      
-      console.log("result['data']", result['data']);
+      };            
       const staticData = result['data']['customer'].map((customer:any) => {
         return {id: customer.id, name: customer.name, total_perfect: customer.total_perfect, total_game: customer.total_game}
-      });
-      console.log('staticData', staticData);
+      });      
 
       setInputList(staticData);
     } catch (err) {      
-      console.log(err);            
+      
     }
   }
 
@@ -104,8 +102,7 @@ const Customers = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };  
-      console.log('created', res.data);
+      };        
       setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
       setNewCustomerResult(fortmatResponse(err.response?.data || err));
@@ -128,13 +125,11 @@ const Customers = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };          
-      console.log('removed correctly', res.data);
+      };                
       setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
       setNewCustomerResult(fortmatResponse(err.response?.data || err));
-    }
-    console.log('removed end!');
+    }    
   }
   // handle click event of the Add button
   const handleAddClick = () => {       

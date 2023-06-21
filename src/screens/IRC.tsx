@@ -36,13 +36,11 @@ const IRC = () => {
   );
   
    //create new NET money.
-   async function storeIRCMoney(money_type) {
-    console.log('money type===>', money_type);
+   async function storeIRCMoney(money_type) {    
     const newNetData = {
       amount: registration.amount,
       money_type:  money_type     
-    };
-    console.log('newNETDAta', newNetData);
+    };    
     try {
       const res = await apiClient.post("/customers/storeIRCMoney", newNetData, {
         headers: {
@@ -57,16 +55,13 @@ const IRC = () => {
       };          
       navigation.navigate('Dashboard');             
     } catch (err) {
-      console.log(err.response?.data || err);
-      //setNewBetResult(fortmatResponse(err.response?.data || err));
-      //console.log(fortmatResponse(err.response?.data || err));
+      
     }
   }
 
   const handleSignUp = useCallback((value: string) => {
     if (!Object.values(isValid).includes(false)) {
-      /** send/save registratin data */
-      console.log('handleIRC', registration);
+      /** send/save registratin data */      
     }
   }, [isValid, registration]);
 

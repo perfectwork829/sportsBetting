@@ -44,8 +44,7 @@ const Dashboard = () => {
     [user],
   );
    //get the all Stepper' net profit.
-   async function getTotalNetProfitList() {  
-    console.log('get total net profit start');
+   async function getTotalNetProfitList() {      
     try {
       const res = await apiClient.get("/home");
 
@@ -54,22 +53,19 @@ const Dashboard = () => {
         headers: res.headers,
         data: res.data,
       };            
-      //setSportsSum(res.data['total']);   
-      console.log('total amount===========>', res.data);
+      //setSportsSum(res.data['total']);         
       setMoneySum({'sports' : res.data['total'], 'net' : res.data['net'], 'irc' : res.data['irc']})      
 
     } catch (err) {            
-      console.log(err.response?.data || err);            
-    }
-    console.log('get total net profit end');
+      
+    }    
   }
  
   useEffect(()=> {  
     getTotalNetProfitList();       
   }, []);
   
-  useEffect(() => {
-    console.log("Dashboard updated with this value", dashboardUpdated);
+  useEffect(() => {    
     getTotalNetProfitList();      
     setDashboardUpdated(false);
   }, [dashboardUpdated])

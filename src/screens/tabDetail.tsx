@@ -128,9 +128,7 @@ const tabDetail = ({route}) => {
       z_zelle: parseFloat(customer?.z_zelle1) + parseFloat(customer?.z_zelle2),      
       u_usdt: parseFloat(customer?.u_usdt1) + parseFloat(customer?.u_usdt2),
       m_game_currency: parseFloat(customer?.m_game_currency1) + parseFloat(customer?.m_game_currency2)
-    };    
-    console.log('~~~~~~~~~~~~~~~customerMoneyData~~~~~~~~~~~~~~~~'+ customerMoneyData.a_apply_pay);
-    console.log('customerID', customerID)
+    };        
     try {
       const res = await apiClient.post("/customer/update", customerMoneyData, {
         headers: {
@@ -177,8 +175,7 @@ const tabDetail = ({route}) => {
           data: res.data,
         };                 
         setCustomer(res.data.single);            
-      } catch (err) {      
-        console.log(err);            
+      } catch (err) {                       
       }
     }
     
@@ -191,7 +188,7 @@ const tabDetail = ({route}) => {
   }, []);
 
   useEffect(()=>{
-    console.log(customer);
+  
   }, [customer])  
 
   return (

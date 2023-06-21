@@ -60,16 +60,15 @@ const tabBests = () => {
         headers: res.headers,
         data: res.data
       };      
-      
-      console.log("result['data']", result['data']);
+          
       const staticData = result['data']['hosts'].map((customer:any) => {
         return {id: customer.id, name: customer.name, total_perfect: customer.total_perfect, total_game: customer.total_game}
       });
-      console.log('staticData', staticData);
+    
 
       setInputList(staticData);
     } catch (err) {      
-      console.log(err);            
+    
     }
   }
 
@@ -77,8 +76,7 @@ const tabBests = () => {
     displayAllHosts();
   }, []);
 
-  useEffect(() => {
-    console.log("splitter updated with this value", splitterUpdated);
+  useEffect(() => {    
     displayAllHosts();      
     setSplitterUpdated(false);
   }, [splitterUpdated]);
@@ -112,8 +110,7 @@ const tabBests = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };  
-      console.log('created', res.data);
+      };        
       setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
       setNewCustomerResult(fortmatResponse(err.response?.data || err));
@@ -137,13 +134,11 @@ const tabBests = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };          
-      console.log('removed correctly', res.data);
+      };                
       setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
       setNewCustomerResult(fortmatResponse(err.response?.data || err));
-    }
-    console.log('removed end!');
+    }    
   }
   // handle click event of the Add button
   const handleAddClick = () => {       
