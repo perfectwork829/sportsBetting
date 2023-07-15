@@ -206,49 +206,27 @@ export interface ThemeWeights {
   extrabold?: TextStyle['fontWeight'];
   black?: TextStyle['fontWeight'];
 }
-export interface ThemeIcons {
-  apple: ImageSourcePropType;
-  google: ImageSourcePropType;
-  facebook: ImageSourcePropType;
-  arrow: ImageSourcePropType;
-  articles: ImageSourcePropType;
-  basket: ImageSourcePropType;
-  bell: ImageSourcePropType;
-  calendar: ImageSourcePropType;
-  chat: ImageSourcePropType;
-  check: ImageSourcePropType;
-  clock: ImageSourcePropType;
-  close: ImageSourcePropType;
-  components: ImageSourcePropType;
-  document: ImageSourcePropType;
-  documentation: ImageSourcePropType;
-  extras: ImageSourcePropType;
-  flight: ImageSourcePropType;
-  home: ImageSourcePropType;
-  hotel: ImageSourcePropType;
-  image: ImageSourcePropType;
-  location: ImageSourcePropType;
+export interface ThemeIcons { 
+  apple: ImageSourcePropType; 
+  arrow: ImageSourcePropType; 
+  bell: ImageSourcePropType; 
+  check: ImageSourcePropType; 
+  close: ImageSourcePropType; 
+  flight: ImageSourcePropType; 
+  home: ImageSourcePropType; 
   menu: ImageSourcePropType;
-  more: ImageSourcePropType;
-  notification: ImageSourcePropType;
-  office: ImageSourcePropType;
-  payment: ImageSourcePropType;
-  profile: ImageSourcePropType;
-  register: ImageSourcePropType;
-  rental: ImageSourcePropType;
-  search: ImageSourcePropType;
-  settings: ImageSourcePropType;
-  star: ImageSourcePropType;
-  train: ImageSourcePropType;
-  users: ImageSourcePropType;
-  warning: ImageSourcePropType;
+  payment: ImageSourcePropType; 
+  users: ImageSourcePropType; 
   betting: ImageSourcePropType;
   winner: ImageSourcePropType;
   loser: ImageSourcePropType;
   plus: ImageSourcePropType;
   remove: ImageSourcePropType;
   cancel: ImageSourcePropType;
+  transaction: ImageSourcePropType;
 }
+
+
 
 export interface ThemeAssets {
   OpenSansLight?: any;
@@ -260,32 +238,14 @@ export interface ThemeAssets {
   logo: ImageSourcePropType;
   header: ImageSourcePropType;
   background: ImageSourcePropType;
-
   card1: ImageSourcePropType;
   card2: ImageSourcePropType;
   card3: ImageSourcePropType;
   card4: ImageSourcePropType;
-  card5: ImageSourcePropType;
-  tabback: ImageSourcePropType;
-
-  photo1: ImageSourcePropType;
-  photo2: ImageSourcePropType;
-  photo3: ImageSourcePropType;
-  photo4: ImageSourcePropType;
-  photo5: ImageSourcePropType;
-  photo6: ImageSourcePropType;
-  carousel1: ImageSourcePropType;
-
-  avatar1: ImageSourcePropType;
-  avatar2: ImageSourcePropType;
-
-  x5: ImageSourcePropType;
-  gle: ImageSourcePropType;
-  tesla: ImageSourcePropType;
-
+  card5: ImageSourcePropType;  
+  x5: ImageSourcePropType;    
   ios: ImageSourcePropType;
-  android: ImageSourcePropType;
-  
+  android: ImageSourcePropType;  
 }
 
 export interface ThemeFonts {

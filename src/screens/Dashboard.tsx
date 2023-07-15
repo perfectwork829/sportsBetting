@@ -1,6 +1,5 @@
-import React, {useCallback, useState, useEffect} from 'react';
-import {Platform, Linking} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import React, {useState, useEffect} from 'react';
+import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import {Block, Button, Image, Text} from '../components/';
@@ -8,6 +7,7 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 import apiClient from "../constants/http-common"
 
 const isAndroid = Platform.OS === 'android';
+
 interface MoneySum {
   sports?: number;
   net?: number;
@@ -22,27 +22,7 @@ const Dashboard = () => {
   const [moneySum, setMoneySum] = useState<MoneySum>();
 
   const {assets, colors, sizes, gradients} = useTheme();  
-  const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
-  const IMAGE_VERTICAL_SIZE =
-    (sizes.width - (sizes.padding + sizes.sm) * 2) / 2;
-  const IMAGE_MARGIN = (sizes.width - IMAGE_SIZE * 3 - sizes.padding * 2) / 2;
-  const IMAGE_VERTICAL_MARGIN =
-    (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;  
-  const handleSocialLink = useCallback(
-    (type: 'twitter' | 'dribbble') => {
-      const url =
-        type === 'twitter'
-          ? `https://twitter.com/${user?.social?.twitter}`
-          : `https://dribbble.com/${user?.social?.dribbble}`;
 
-      try {
-        Linking.openURL(url);
-      } catch (error) {
-        alert(`Cannot open URL: ${url}`);
-      }
-    },
-    [user],
-  );
    //get the all Stepper' net profit.
    async function getTotalNetProfitList() {      
     try {

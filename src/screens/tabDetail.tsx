@@ -1,8 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Platform, Linking, View} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import React, { useEffect, useState} from 'react';
+import {Platform, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-import dayjs from 'dayjs';
 
 import {Block, Button, Image, Text, Input} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
@@ -15,14 +13,8 @@ const tabDetail = ({route}) => {
   const {user, setSplitterUpdated} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {assets, colors, sizes, gradients,icons} = useTheme();
-  
-  const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
-  const IMAGE_VERTICAL_SIZE =
-    (sizes.width - (sizes.padding + sizes.sm) * 2) / 2;
-  const IMAGE_MARGIN = (sizes.width - IMAGE_SIZE * 3 - sizes.padding * 2) / 2;
-  const IMAGE_VERTICAL_MARGIN =
-    (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
+  const {assets, colors, sizes } = useTheme();
+   
   const [customer, setCustomer] = useState<ICustomer>();
   var temp = {};
 
@@ -32,7 +24,7 @@ const tabDetail = ({route}) => {
     a_apply_pay1: 0,
     b_bitcoin1: 0,
     e_ethereum1: 0,
-    z_zelle1: 0,    
+    c_card1: 0,    
     u_usdt1: 0,
     m_game_currency1: 0,
     a_apply_pay2: 0,
@@ -44,6 +36,9 @@ const tabDetail = ({route}) => {
   });
 
   const handleChange = (key: any, value: any) => {
+    if(value.trim() == '' ){
+      value = 0; 
+    }
     if(key == "a_apply_pay1"){
       setCustomer(customer => ({
         ...customer, a_apply_pay1: value
@@ -80,15 +75,15 @@ const tabDetail = ({route}) => {
       }));
       return;
     }
-    if(key == "z_zelle1"){
+    if(key == "c_card1"){
       setCustomer(customer => ({
-        ...customer, z_zelle1: value
+        ...customer, c_card1: value
       }));
       return;
     }
-    if(key == "z_zelle2"){
+    if(key == "c_card2"){
       setCustomer(customer => ({
-        ...customer, z_zelle2: value
+        ...customer, c_card2: value
       }));
       return;
     }
@@ -119,16 +114,43 @@ const tabDetail = ({route}) => {
   }
 
   //save customer's money individually.
-  async function saveCustomerMoney() {
+  async function saveCustomerMoney() {    
     const customerMoneyData = {
       id: customerID,
       a_apply_pay: parseFloat(customer?.a_apply_pay1) + parseFloat(customer?.a_apply_pay2),
       b_bitcoin: parseFloat(customer?.b_bitcoin1) + parseFloat(customer?.b_bitcoin2),
       e_ethereum: parseFloat(customer?.e_ethereum1) + parseFloat(customer?.e_ethereum2),
-      z_zelle: parseFloat(customer?.z_zelle1) + parseFloat(customer?.z_zelle2),      
+      c_card: parseFloat(customer?.c_card1) + parseFloat(customer?.c_card2),      
       u_usdt: parseFloat(customer?.u_usdt1) + parseFloat(customer?.u_usdt2),
       m_game_currency: parseFloat(customer?.m_game_currency1) + parseFloat(customer?.m_game_currency2)
-    };        
+    };  
+    const customerMoneyData_new = {
+      id: customerID,
+      a_apply_pay: parseFloat(customer?.a_apply_pay2),
+      b_bitcoin: parseFloat(customer?.b_bitcoin2),
+      e_ethereum: parseFloat(customer?.e_ethereum2),
+      c_card: parseFloat(customer?.c_card2),      
+      u_usdt: parseFloat(customer?.u_usdt2),
+      m_game_currency: parseFloat(customer?.m_game_currency2)
+    };       
+
+    try {
+      const res = await apiClient.post("/customer/update_newMoney", customerMoneyData_new, {
+        headers: {
+          "x-access-token": "token-value",
+        },
+      });
+
+      const result = {
+        status: res.status + "-" + res.statusText,
+        headers: res.headers,
+        data: res.data,
+      };                  
+      // setNewBetResult(fortmatResponse(result));      
+    } catch (err) {
+      // setNewBetResult(fortmatResponse(err.response?.data || err));
+    }
+
     try {
       const res = await apiClient.post("/customer/update", customerMoneyData, {
         headers: {
@@ -157,13 +179,13 @@ const tabDetail = ({route}) => {
         "e_ethereum1": 0,
         "m_game_currency1": 0,        
         "u_usdt1": 0,
-        "z_zelle1": 0,
+        "c_card1": 0,
         "a_apply_pay2": 0,
         "b_bitcoin2": 0,
         "e_ethereum2": 0,
         "m_game_currency2": 0,        
         "u_usdt2": 0,
-        "z_zelle2": 0,
+        "c_card2": 0,
       }
       setCustomer(temp);   
     }else{
@@ -192,113 +214,116 @@ const tabDetail = ({route}) => {
   }, [customer])  
 
   return (
-    <Image
-      background
-      source={assets.tabback}
-      padding={sizes.padding}
-      style={{flex: 1}}>
-      <Block safe justify="center">
-        <Block safe marginTop={sizes.sm}>
-          <Block        
-            paddingHorizontal={sizes.s}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: sizes.padding}}>
-            <Block>
-              <Image
-                background
-                resizeMode="cover"            
-                paddingBottom={sizes.l}
-                radius={sizes.cardRadius}
-                source={assets.card6}>
+    <ScrollView>
+      <Image
+        background
+        source={assets.tabback}
+        padding={sizes.padding}
+        style={{flex: 1}}>
+
+        <Block safe  justify="center">
+          <Block safe marginTop={sizes.sm} showsVerticalScrollIndicator={false} scroll>
+            <Block        
+              paddingHorizontal={sizes.s}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{paddingBottom: sizes.padding}}>
+              <Block >
+                <Image
+                  background
+                  resizeMode="cover"            
+                  paddingBottom={sizes.l}
+                  radius={sizes.cardRadius}
+                  source={assets.card6}>
+                  <Button
+                    row
+                    flex={0}
+                    justify="flex-start"  
+                    onPress={() => {
+                      setSplitterUpdated(true);
+                      navigation.goBack(); 
+                    }}
+                    >
+                    <Image
+                      radius={0}
+                      color={colors.primary}
+                      source={assets.arrow}
+                      transform={[{rotate: '180deg'}] }
+                    />
+                    <Text p primary marginLeft={sizes.s}>
+                      Back
+                    </Text>
+                  </Button>
+                  <Block flex={0} align="center">
+                    <Text h2 center primary>                    
+                      {!customer ? "": customer.name}
+                      
+                    </Text>              
+                  </Block>
+                </Image> 
+                <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
+                  <Text primary size={sizes.sm} h5 bold>a(Applepay) </Text>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 20}} 
+                    defaultValue={!customer ? "0": (customer.a_apply_pay1.toString()=="0")? '': customer.a_apply_pay1.toString()}
+                    onChangeText={(value) => handleChange('a_apply_pay1', value)}/>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
+                    onChangeText={(value) => handleChange('a_apply_pay2', value)}/>
+                </Block>
+                <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
+                  <Text primary size={sizes.sm} h5 bold>b(bitcoin) </Text>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 35}} defaultValue={!customer ? "0": (customer.b_bitcoin1.toString()=="0")?'': customer.b_bitcoin1.toString()}
+                  onChangeText={(value) => handleChange('b_bitcoin1', value)}/>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
+                  onChangeText={(value) => handleChange('b_bitcoin2', value)}/>
+                </Block>
+                <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
+                  <Text primary size={sizes.sm} h5 bold>e(ethereum) </Text>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 12}} defaultValue={!customer ? "0": (customer.e_ethereum1.toString()=="0")? '':customer.e_ethereum1.toString()}
+                  onChangeText={(value) => handleChange('e_ethereum1', value)}/>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} 
+                  onChangeText={(value) => handleChange('e_ethereum2', value)}/>
+                </Block>            
+                <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
+                  <Text primary size={sizes.sm} h5 bold>u(usdt) </Text>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 55}} defaultValue={!customer ? "0": (customer.u_usdt1.toString()=="0")?'': customer.u_usdt1.toString()}
+                  onChangeText={(value) => handleChange('u_usdt1', value)}/>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
+                  onChangeText={(value) => handleChange('u_usdt2', value)}/>
+                </Block>
+                <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
+                  <Text primary size={sizes.sm} h5 bold>c(CAD) </Text>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 55}} defaultValue={!customer ? "0": (customer.c_card1.toString()=="0")? '': customer.c_card1.toString()}
+                  onChangeText={(value) => handleChange('c_card1', value)}/>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} 
+                  onChangeText={(value) => handleChange('c_card2', value)}/>
+                </Block> 
+                <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
+                  <Text primary size={sizes.sm} h5 bold>m(OSRS) </Text>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 45}} defaultValue={!customer ? "0": (customer.m_game_currency1.toString()=="0")?'': customer.m_game_currency1.toString()}
+                  onChangeText={(value) => handleChange('m_game_currency1', value)}/>
+                  <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
+                  onChangeText={(value) => handleChange('m_game_currency2', value)}/>
+                </Block>
                 <Button
-                  row
-                  flex={0}
-                  justify="flex-start"  
+                  primary
+                  shadow={!isAndroid}
+                  marginVertical={sizes.s}
+                  marginHorizontal={sizes.sm}
+                  
                   onPress={() => {
                     setSplitterUpdated(true);
-                    navigation.goBack(); 
+                    saveCustomerMoney();
                   }}
                   >
-                  <Image
-                    radius={0}
-                    color={colors.primary}
-                    source={assets.arrow}
-                    transform={[{rotate: '180deg'}] }
-                  />
-                  <Text p primary marginLeft={sizes.s}>
-                    Back
+                  <Text bold white transform="uppercase">
+                    {t('tabsBets.btn_save')}
                   </Text>
-                </Button>
-                <Block flex={0} align="center">
-                  <Text h2 center primary>                    
-                    {!customer ? "": customer.name}
-                    
-                  </Text>              
-                </Block>
-              </Image> 
-              <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
-                <Text primary size={sizes.sm} h5 bold>a(Applepay) </Text>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 20}} 
-                  defaultValue={!customer ? "0": (customer.a_apply_pay1.toString()=="0")? '': customer.a_apply_pay1.toString()}
-                  onChangeText={(value) => handleChange('a_apply_pay1', value)}/>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
-                  onChangeText={(value) => handleChange('a_apply_pay2', value)}/>
+                </Button>              
               </Block>
-              <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
-                <Text primary size={sizes.sm} h5 bold>b(bitcoin) </Text>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 35}} defaultValue={!customer ? "0": (customer.b_bitcoin1.toString()=="0")?'': customer.b_bitcoin1.toString()}
-                onChangeText={(value) => handleChange('b_bitcoin1', value)}/>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
-                onChangeText={(value) => handleChange('b_bitcoin2', value)}/>
-              </Block>
-              <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
-                <Text primary size={sizes.sm} h5 bold>e(ethereum) </Text>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 12}} defaultValue={!customer ? "0": (customer.e_ethereum1.toString()=="0")? '':customer.e_ethereum1.toString()}
-                onChangeText={(value) => handleChange('e_ethereum1', value)}/>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} 
-                onChangeText={(value) => handleChange('e_ethereum2', value)}/>
-              </Block>
-              <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
-                <Text primary size={sizes.sm} h5 bold>z(zelle) </Text>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 55}} defaultValue={!customer ? "0": (customer.z_zelle1.toString()=="0")? '': customer.z_zelle1.toString()}
-                onChangeText={(value) => handleChange('z_zelle1', value)}/>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}} 
-                onChangeText={(value) => handleChange('z_zelle2', value)}/>
-              </Block>              
-              <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
-                <Text primary size={sizes.sm} h5 bold>u(usdt) </Text>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 55}} defaultValue={!customer ? "0": (customer.u_usdt1.toString()=="0")?'': customer.u_usdt1.toString()}
-                onChangeText={(value) => handleChange('u_usdt1', value)}/>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
-                onChangeText={(value) => handleChange('u_usdt2', value)}/>
-              </Block>
-              <Block  row flex={0} align="center" justify="space-between" paddingBottom={sizes.m} >
-                <Text primary size={sizes.sm} h5 bold>m(OSRS) </Text>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold", marginLeft: 45}} defaultValue={!customer ? "0": (customer.m_game_currency1.toString()=="0")?'': customer.m_game_currency1.toString()}
-                onChangeText={(value) => handleChange('m_game_currency1', value)}/>
-                <Input primary style={{width: '30%', fontSize: 30, color: 'white', fontWeight: "bold"}}
-                onChangeText={(value) => handleChange('m_game_currency2', value)}/>
-              </Block>
-              <Button
-                primary
-                shadow={!isAndroid}
-                marginVertical={sizes.s}
-                marginHorizontal={sizes.sm}
-                
-                onPress={() => {
-                  setSplitterUpdated(true);
-                  saveCustomerMoney();
-                }}
-                >
-                <Text bold white transform="uppercase">
-                  {t('tabsBets.btn_save')}
-                </Text>
-              </Button>              
             </Block>
           </Block>
         </Block>
-      </Block>
-    </Image>    
+      </Image>   
+    </ScrollView> 
   );
 };
 

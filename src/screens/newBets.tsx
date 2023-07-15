@@ -1,6 +1,6 @@
 import React, {useCallback, useLayoutEffect, useEffect, useState, useRef} from 'react';
 
-import {Linking, Platform, FlatList} from 'react-native';
+import {Platform, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
@@ -50,7 +50,7 @@ const newBets = () => {
     notes: ''
   });
   const {assets, colors, gradients, sizes, icons} = useTheme();
-  const [getResult, setGetResult] = useState(null);
+  // const [getResult, setGetResult] = useState(null);
   const [newBetResult, setNewBetResult] = useState(null);
   const [quantity, setQuantity] = useState('a-(applepay)');
   const [customerName, setCustomerName] = useState('');
@@ -79,9 +79,9 @@ const newBets = () => {
         };
                 
         setCustomerNames(res['data'][0]);
-        setGetResult(fortmatResponse(result));
+        //setGetResult(fortmatResponse(result));
       } catch (err) {                 
-        setGetResult(fortmatResponse(err.response?.data || err));
+        console.log(err);
       }
 
       try {
@@ -94,9 +94,10 @@ const newBets = () => {
         };
 
         setHostNames(res["data"]['hosts']);
-        setGetResult(fortmatResponse(result));
+        //setGetResult(fortmatResponse(result));
       } catch (err) {                
-        setGetResult(fortmatResponse(err.response?.data || err));
+        //setGetResult(fortmatResponse(err.response?.data || err));
+        console.log(err);
       }
   }
 
@@ -170,10 +171,6 @@ const newBets = () => {
     },    
     [setRegistration],
   );
-
-  const addInputBox = useCallback(()=>{
-      alert(99);
-  }, []);
 
   const handleSignUp = useCallback(() => {
     if (!Object.values(isValid).includes(false)) {
@@ -388,7 +385,7 @@ const newBets = () => {
               <Modal visible={showModal} onRequestClose={() => setModal(false)}>
                 <FlatList
                   keyExtractor={(index) => `${index}`}
-                  data={["a-(applepay)", "b-(bitcoin)", "e-(ethereum)", "z-(zelle)", "u-(usdt)", "m-(OSRS)"]}
+                  data={["a-(applepay)", "b-(bitcoin)", "e-(ethereum)", "u-(usdt)", "c-(CAD)", "m-(OSRS)"]}
                   renderItem={({item}) => (
                     <Button
                       marginBottom={sizes.sm}

@@ -1,11 +1,11 @@
 import React, {useCallback, useLayoutEffect, useEffect, useState, useRef} from 'react';
 
-import {Linking, Platform, FlatList} from 'react-native';
+import {Platform } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
-import {Block, Button, Input, Image, Switch, Modal, Text, Checkbox} from '../components/';
+import {Block, Button, Input, Image, Text} from '../components/';
 import {useHeaderHeight} from '@react-navigation/stack';
 import apiClient from "../constants/http-common"
 
@@ -43,7 +43,7 @@ const tabBests = () => {
   });
   const {assets, colors, gradients, sizes, icons} = useTheme();
   const headerHeight = useHeaderHeight();
-  const [newCustomerResult, setNewCustomerResult] = useState(null);
+  // const [newCustomerResult, setNewCustomerResult] = useState(null);
 
   const [inputList, setInputList] = useState([]);  
   const fortmatResponse = (res:any) => {
@@ -62,7 +62,7 @@ const tabBests = () => {
       };      
           
       const staticData = result['data']['hosts'].map((customer:any) => {
-        return {id: customer.id, name: customer.name, total_perfect: customer.total_perfect, total_game: customer.total_game}
+        return {id: customer.id, name: customer.name, total_perfect: customer.total_perfect, total_game: customer.total_game, total_cad: customer.total_cad}
       });
     
 
@@ -111,9 +111,10 @@ const tabBests = () => {
         headers: res.headers,
         data: res.data,
       };        
-      setNewCustomerResult(fortmatResponse(result));
+      //setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
-      setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      // setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      console.log(err);
     }
   }
 
@@ -135,9 +136,10 @@ const tabBests = () => {
         headers: res.headers,
         data: res.data,
       };                
-      setNewCustomerResult(fortmatResponse(result));
+      //setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
-      setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      // setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      console.log(err);
     }    
   }
   // handle click event of the Add button
@@ -236,7 +238,7 @@ const tabBests = () => {
                         <Button flex={1} gradient={gradients.info} marginBottom={sizes.xs} 
                                 onPress={() => viewDetail(x['id'], x['name'])}>                                  
                             <Text white bold size={17}>
-                                {x['name']}( {x['total_perfect']}$ | {x['total_game']}m )
+                                {x['name']}( {x['total_perfect']}$ | {x['total_game']}m | {x['total_cad']}c )
                             </Text>
                         </Button>
                         <Button             

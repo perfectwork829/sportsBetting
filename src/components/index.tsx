@@ -11,6 +11,7 @@ import Product from './Product';
 import Bet from './Bet';
 import BetSet from './BetSet';
 import Tab from './Tab';
+import Tran from './Tran';
 export {
   Block,
   Button,
@@ -24,5 +25,6 @@ export {
   Modal,
   Bet,
   BetSet,
-  Tab
+  Tab,
+  Tran
 };

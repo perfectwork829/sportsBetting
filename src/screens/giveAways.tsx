@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Linking, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import apiClient from "../constants/http-common";
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
-import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
+import {Block, Button, Input, Image, Text} from '../components/';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -42,7 +42,7 @@ const giveAways = () => {
       money_type:  money_type     
     };    
     try {
-      const res = await apiClient.post("/customers/storeGiveAways", newNetData, {
+      const res = await apiClient.post("/customers/storeMisc", newNetData, {
         headers: {
           "x-access-token": "token-value",
         },
@@ -53,7 +53,7 @@ const giveAways = () => {
         headers: res.headers,
         data: res.data,        
       };          
-      navigation.navigate('Dashboard');             
+               
     } catch (err) {            
     }
   }
@@ -183,6 +183,7 @@ const giveAways = () => {
                 onPress={()=> {                  
                   setNetIrc(1);
                   setDashboardUpdated(true);
+                  navigation.navigate('Dashboard');    
                 }}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
@@ -228,6 +229,7 @@ const giveAways = () => {
                 onPress={()=> {                  
                   setNetIrc(2);
                   setDashboardUpdated(true);
+                  navigation.navigate('Dashboard');    
                 }}>
                 <Text bold primary transform="uppercase">
                   {t('IRC.currency_game')}

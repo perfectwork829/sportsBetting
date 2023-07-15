@@ -1,11 +1,11 @@
 import React, {useCallback, useLayoutEffect, useEffect, useState, useRef} from 'react';
 
-import {Linking, Platform, FlatList} from 'react-native';
+import { Platform } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
-import {Block, Button, Input, Image, Switch, Modal, Text, Checkbox} from '../components/';
+import {Block, Button, Input, Image, Text} from '../components/';
 import {useHeaderHeight} from '@react-navigation/stack';
 import apiClient from "../constants/http-common"
 
@@ -103,9 +103,10 @@ const Customers = () => {
         headers: res.headers,
         data: res.data,
       };        
-      setNewCustomerResult(fortmatResponse(result));
+      //setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
-      setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      // setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      console.log(err);
     }
   }
 
@@ -114,6 +115,7 @@ const Customers = () => {
     
     const delCustomer = {
       name: del_customer_name,      
+      flag: 1  
     };    
     try {      
       const res = await apiClient.post("/customer/destroy", delCustomer, {
@@ -126,9 +128,10 @@ const Customers = () => {
         headers: res.headers,
         data: res.data,
       };                
-      setNewCustomerResult(fortmatResponse(result));
+      //setNewCustomerResult(fortmatResponse(result));
     } catch (err) {
-      setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      //setNewCustomerResult(fortmatResponse(err.response?.data || err));
+      console.log(err);
     }    
   }
   // handle click event of the Add button

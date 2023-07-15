@@ -20,8 +20,8 @@ export default () => {
       StatusBar.setBarStyle('default');      
     };
     
-  }, [isDark]);
-
+  }, [isDark]);  
+  
   // load custom fonts
   const [fontsLoaded] = useFonts({
     'OpenSans-Light': theme.assets.OpenSansLight,

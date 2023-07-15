@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-soft-ui-kit-free",
-    "slug": "rn-soft-ui-kit-free",
+    "name": "Stepper",
+    "slug": "Stepper",
     "description": "Sports Betting App",
     "primaryColor": "#CB0C9F",
     "version": "1.0.0",
@@ -23,13 +23,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#CB0C9F"
       },
       "package": "com.websuper2023.rnsoftuikitfree"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "644d64b7-8536-4e3e-a66b-5307869c2d2d"
+      }
     }
   }
 }

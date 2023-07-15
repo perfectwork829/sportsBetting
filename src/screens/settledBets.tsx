@@ -2,20 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 
 import {useData, useTheme,useTranslation} from '../hooks/';
-import {ICategory, IBet} from '../constants/types';
-import {Block, Button, Article, Input, Text, BetSet} from '../components/';
+
+import {Block, BetSet} from '../components/';
 import Image from '../components/Image';
 import apiClient from "../constants/http-common"
 
 const settledBets = () => {
   const {t} = useTranslation();
   const data = useData();
-  const [selected, setSelected] = useState<ICategory>();
   const [bets, setBets] = useState<IBet[]>([]);
-  const [getResult, setGetResult] = useState(null);
-
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const {assets, colors, gradients, sizes, icons} = useTheme();  
+  // const [getResult, setGetResult] = useState(null);
+  
+  const {assets, sizes} = useTheme();  
   
   const fortmatResponse = (res: any) => {
     return JSON.stringify(res, null, 2);
@@ -33,7 +31,8 @@ const settledBets = () => {
       };            
       setBets(res.data[0]);         
     } catch (err) {            
-      setGetResult(fortmatResponse(err.response?.data || err));
+      //setGetResult(fortmatResponse(err.response?.data || err));
+      console.log(err);
     }
   } 
 

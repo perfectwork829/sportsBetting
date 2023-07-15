@@ -1,13 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Platform, Linking} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import React, {useEffect, useState} from 'react';
+import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import dayjs from 'dayjs';
 
 import {Block, Button, Image, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import apiClient from "../constants/http-common"
-import {ICategory, IBet} from '../constants/types';
+import {IBet} from '../constants/types';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -16,31 +15,9 @@ const setDetail = ({route}) => {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes, fonts, gradients,icons} = useTheme();
-  const [getResult, setGetResult] = useState(null);
+  // const [setGetResult] = useState(null);
   const [bet, setBet] = useState<IBet>();
-  
-  const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
-  const IMAGE_VERTICAL_SIZE =
-    (sizes.width - (sizes.padding + sizes.sm) * 2) / 2;
-  const IMAGE_MARGIN = (sizes.width - IMAGE_SIZE * 3 - sizes.padding * 2) / 2;
-  const IMAGE_VERTICAL_MARGIN =
-    (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
-  const handleSocialLink = useCallback(
-    (type: 'twitter' | 'dribbble') => {
-      const url =
-        type === 'twitter'
-          ? `https://twitter.com/${user?.social?.twitter}`
-          : `https://dribbble.com/${user?.social?.dribbble}`;
-
-      try {
-        Linking.openURL(url);
-      } catch (error) {
-        alert(`Cannot open URL: ${url}`);
-      }
-    },
-    [user],
-  );
   const fortmatResponse = (res:any) => {
     return JSON.stringify(res, null, 2);
   };
@@ -49,9 +26,7 @@ const setDetail = ({route}) => {
     navigation.navigate('Dashboard');
   }
   const { betID } = route.params;  
-  //const { panelData } = this.props.navigation.getParam('betID');
-  
-  
+    
   //get the special bet data  
   async function getBetData(id:number) {  
     try {
@@ -64,7 +39,8 @@ const setDetail = ({route}) => {
       };                 
       setBet(res.data);            
     } catch (err) {            
-      setGetResult(fortmatResponse(err.response?.data || err));
+      //setGetResult(fortmatResponse(err.response?.data || err));
+      console.log(err);
     }
   }
 
@@ -177,8 +153,8 @@ const setDetail = ({route}) => {
           </Text>
           
           {bet && (bet["0"]["arrSplitters"]).map((item, idx)=>(                              
-            <Block key={item} card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
-              <Text key={item} size={sizes.sm} h4 info >{item.name}</Text>
+            <Block key={idx} card style={{flex: 1, flexDirection: 'row'}} justify="space-between"  padding={sizes.sm} marginTop={sizes.xs}>
+              <Text key={idx} size={sizes.sm} h4 info >{item.name}</Text>
               <Text key={idx+ 'amount'} size={sizes.sm} h4 >${item.amount}</Text>
             </Block>  
           ))}

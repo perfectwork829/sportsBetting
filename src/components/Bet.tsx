@@ -9,7 +9,6 @@ import {useTheme, useTranslation} from '../hooks/';
 import {IBet} from '../constants/types';
 import { Button} from '../components/';
 import {useNavigation} from '@react-navigation/core';
-import apiClient from "../constants/http-common"
 
 
 const Bet = ({

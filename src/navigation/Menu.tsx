@@ -55,7 +55,6 @@ const ScreensStack = () => {
           borderWidth: isDrawerOpen ? 1 : 0,
         },
       ])}>
-      {/*  */}
       <Screens />
     </Animated.View>
   );
@@ -78,9 +77,7 @@ const DrawerContent = (
       navigation.navigate(to);
     },
     [navigation, setActive],
-  );
-
-  const handleWebLink = useCallback((url) => Linking.openURL(url), []);
+  );  
 
   // screen list for Drawer menu
   const screens = [
@@ -92,6 +89,7 @@ const DrawerContent = (
     {name: t('screens.irc'), to: 'IRC', icon: assets.winner},    
     {name: t('screens.customer'), to: 'Customers', icon: assets.users},    
     {name: t('screens.giveWays'), to: 'giveAways', icon: assets.flight},    
+    {name: t('screens.transaction'), to: 'Transaction', icon: assets.transaction},    
   ];  
 
   return (

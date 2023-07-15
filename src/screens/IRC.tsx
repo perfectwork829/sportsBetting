@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Linking, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import apiClient from "../constants/http-common";
 import {useData, useTheme, useTranslation} from '../hooks/';
@@ -8,10 +8,10 @@ import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
 
 const isAndroid = Platform.OS === 'android';
 
-interface IRC {
+interface IIRC {
   amount: number;
 }
-interface IRCValidation {
+interface IIRCValidation {
   amount: boolean;
 }
 
@@ -20,10 +20,10 @@ const IRC = () => {
   const {t} = useTranslation();
   const navigation = useNavigation();
   
-  const [isValid, setIsValid] = useState<IRCValidation>({
+  const [isValid, setIsValid] = useState<IIRCValidation>({
     amount: false
   });
-  const [registration, setRegistration] = useState<IRC>({
+  const [registration, setRegistration] = useState<IIRC>({
     amount: ''
   });
   const {assets, colors, gradients, sizes} = useTheme();
@@ -40,30 +40,21 @@ const IRC = () => {
     const newNetData = {
       amount: registration.amount,
       money_type:  money_type     
-    };    
+    };        
     try {
       const res = await apiClient.post("/customers/storeIRCMoney", newNetData, {
         headers: {
           "x-access-token": "token-value",
         },
-      });
-
+      });      
       const result = {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,        
-      };          
-      navigation.navigate('Dashboard');             
-    } catch (err) {
-      
+      };                    
+    } catch (err) {      
     }
   }
-
-  const handleSignUp = useCallback((value: string) => {
-    if (!Object.values(isValid).includes(false)) {
-      /** send/save registratin data */      
-    }
-  }, [isValid, registration]);
 
   const setNetIrc = (currency_type:number) => {
     storeIRCMoney(currency_type);      
@@ -182,8 +173,9 @@ const IRC = () => {
               </Block>
               <Button  
                 onPress={()=> {                  
-                  setNetIrc(1);
+                  setNetIrc(1);                  
                   setDashboardUpdated(true);
+                  navigation.navigate('Dashboard');        
                 }}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
@@ -227,8 +219,9 @@ const IRC = () => {
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
                 onPress={()=> {                  
-                  setNetIrc(2);
+                  setNetIrc(2);                        
                   setDashboardUpdated(true);
+                  navigation.navigate('Dashboard');  
                 }}>
                 <Text bold primary transform="uppercase">
                   {t('IRC.currency_game')}
