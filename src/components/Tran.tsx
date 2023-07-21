@@ -23,26 +23,23 @@ const Tran = ({
   onPress,
 }: ITransaction) => {
     const {t} = useTranslation();
-    const {assets, colors, gradients, icons, sizes} = useTheme();
-    const navigation = useNavigation();
-    const [bet, setBet] = useState<IBet>({});
-
-    const viewDetail = (bet_id) => {
-      navigation.navigate('betDetail', {betID: bet_id});
-    }
+    const {colors, gradients, sizes} = useTheme();    
   return (      
     <TouchableWithoutFeedback>
-      <Block card padding={sizes.sm} marginTop={sizes.sm} >
-        <Block row  marginTop={sizes.m} paddingLeft={10}>
-          <Button flex={1}  paddingVertical={0} gradient={gradients.info} style={{minHeight: sizes.xs}}> 
+      <Block card marginTop={sizes.sm} >
+        <Block row  paddingLeft={10}>
+          {/* <Button flex={1}  paddingVertical={0} gradient={gradients.info} style={{minHeight: sizes.xs}}> 
               <Text white bold size={16} transform="uppercase" padding={sizes.xs}>
-                {dayjs(created_at).format('H:m DD MMMM')}
+                {dayjs(created_at).format('H:mm:ss DD MMMM')}
               </Text>                    
-          </Button>          
+          </Button>           */}
         </Block>
-        <Block row marginTop={sizes.sm}>
-          <Block justify="center" center>   
-            <Text bold size={18} padding={sizes.xs} color={colors.facebook}>                
+        <Block row>
+          <Block justify="center" center>  
+            <Text green bold size={16} paddingLeft={15} transform="uppercase" padding={sizes.xs}>
+                {dayjs(created_at).format('H:mm:ss DD MMMM')}
+            </Text>  
+            <Text bold size={18} paddingLeft={15} color={colors.facebook}>                
                 {description}
             </Text>                      
           </Block>

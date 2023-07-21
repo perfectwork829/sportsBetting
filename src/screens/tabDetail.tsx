@@ -122,39 +122,20 @@ const tabDetail = ({route}) => {
       e_ethereum: parseFloat(customer?.e_ethereum1) + parseFloat(customer?.e_ethereum2),
       c_card: parseFloat(customer?.c_card1) + parseFloat(customer?.c_card2),      
       u_usdt: parseFloat(customer?.u_usdt1) + parseFloat(customer?.u_usdt2),
-      m_game_currency: parseFloat(customer?.m_game_currency1) + parseFloat(customer?.m_game_currency2)
-    };  
-    const customerMoneyData_new = {
-      id: customerID,
-      a_apply_pay: parseFloat(customer?.a_apply_pay2),
-      b_bitcoin: parseFloat(customer?.b_bitcoin2),
-      e_ethereum: parseFloat(customer?.e_ethereum2),
-      c_card: parseFloat(customer?.c_card2),      
-      u_usdt: parseFloat(customer?.u_usdt2),
-      m_game_currency: parseFloat(customer?.m_game_currency2)
-    };       
+      m_game_currency: parseFloat(customer?.m_game_currency1) + parseFloat(customer?.m_game_currency2),
 
-    try {
-      const res = await apiClient.post("/customer/update_newMoney", customerMoneyData_new, {
-        headers: {
-          "x-access-token": "token-value",
-        },
-      });
-
-      const result = {
-        status: res.status + "-" + res.statusText,
-        headers: res.headers,
-        data: res.data,
-      };                  
-      // setNewBetResult(fortmatResponse(result));      
-    } catch (err) {
-      // setNewBetResult(fortmatResponse(err.response?.data || err));
-    }
+      a_apply_pay_history: parseFloat(customer?.a_apply_pay2),
+      b_bitcoin_history: parseFloat(customer?.b_bitcoin2),
+      e_ethereum_history: parseFloat(customer?.e_ethereum2),
+      c_card_history: parseFloat(customer?.c_card2),      
+      u_usdt_history: parseFloat(customer?.u_usdt2),
+      m_game_currency_history: parseFloat(customer?.m_game_currency2)
+    };          
 
     try {
       const res = await apiClient.post("/customer/update", customerMoneyData, {
         headers: {
-          "x-access-token": "token-value",
+          "x-access-token": "token-value2",
         },
       });
 

@@ -29,8 +29,7 @@ const Transaction = () => {
         status: res.status + "-" + res.statusText,
         headers: res.headers,
         data: res.data,
-      };   
-      console.log('transaction data:>>>>>>>>>>>>>>>>',res.data[0]);
+      };         
       setTransactions(res.data[0]);         
     } catch (err) {             
       //setGetResult(fortmatResponse(err.response?.data || err));

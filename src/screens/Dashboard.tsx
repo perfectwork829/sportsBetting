@@ -168,6 +168,13 @@ const Dashboard = () => {
                   Misc
                 </Text>
             </Button>
+        </Block> 
+        <Block paddingHorizontal={sizes.base}>
+            <Button flex={1} gradient={gradients.success} marginBottom={sizes.xs} onPress={() => navigation.navigate('Transaction')}>
+                <Text white bold transform="uppercase">
+                  Transaction
+                </Text>
+            </Button>
         </Block>     
         </Block>
       </Block>
